@@ -49,6 +49,7 @@
     "packages/components/icons",
     "packages/components/radio",
     "packages/components/switch",
+    "packages/components/tabs",
     "packages/components/text",
     "packages/components/text-field",
     "packages/components/user",
@@ -115,7 +116,7 @@
   },
   "dependencies": {
     "@gpn-design/uikit": "^1.0.2",
-    "react": "^16.13.1",
-    "bem-cn": "^3.0.1"
+    "bem-cn": "^3.0.1",
+    "react": "^16.13.1"
   }
 }

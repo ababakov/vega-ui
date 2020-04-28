@@ -1,0 +1,89 @@
+.VegaTabs {
+  position: relative;
+
+  font-size: 0;
+
+  &_size {
+    &_s {
+      --tab-font-size: var(--size-text-s);
+    }
+
+    &_m {
+      --tab-font-size: var(--size-text-m);
+    }
+  }
+
+  &__ScrollLeft,
+  &__ScrollRight {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+
+    display: flex;
+    align-items: center;
+
+    width: calc(var(--tab-font-size) * 1.4 + var(--space-xs) * 2 + 24px);
+  }
+
+  &__ScrollLeft {
+    left: 0;
+
+    justify-content: flex-start;
+
+    background-image: linear-gradient(
+      to left,
+      transparent 0,
+      var(--color-bg-default) 24px,
+      var(--color-bg-default) 100%
+    );
+  }
+
+  &__ScrollRight {
+    right: 0;
+
+    justify-content: flex-end;
+
+    background-image: linear-gradient(
+      to right,
+      transparent 0,
+      var(--color-bg-default) 24px,
+      var(--color-bg-default) 100%
+    );
+  }
+
+  &__ScrollButton {
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: calc(var(--tab-font-size) * 1.4 + var(--space-xs) * 2);
+    height: 100%;
+
+    color: var(--color-typo-secondary);
+
+    background-color: transparent;
+
+    border: none;
+  }
+
+  &__Inner {
+    overflow: hidden;
+
+    width: 100%;
+  }
+
+  &__InnerContent {
+    margin-bottom: -38px;
+    padding-bottom: 30px;
+
+    overflow-x: auto;
+
+    white-space: nowrap;
+
+    /* For WebKit implementations, provide inertia scrolling */
+    -webkit-overflow-scrolling: touch;
+  }
+}
