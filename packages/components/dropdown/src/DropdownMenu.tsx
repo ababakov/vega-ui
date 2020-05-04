@@ -8,7 +8,6 @@ import './Dropdown.css';
 type DropdownMenuProps = {
   className?: string;
   children: React.ReactNode;
-  as?: React.ElementType;
   activeName: string;
   onChangeActive?: (name: string) => void;
 };
@@ -16,17 +15,17 @@ type DropdownMenuProps = {
 export const DropdownMenu: React.FC<DropdownMenuProps> = ({
   className,
   children,
-  as = 'nav',
   activeName,
   onChangeActive,
   ...rest
 }) => {
-  const ListComponent = as;
   return (
     <DropdownMenuContext.Provider value={{ onChangeActive, activeName }}>
-      <ListComponent {...rest} className={cnDropdown('Menu').mix(className)}>
-        {children}
-      </ListComponent>
+      <nav role="navigation">
+        <ul {...rest} className={cnDropdown('Menu').mix(className)}>
+          {children}
+        </ul>
+      </nav>
     </DropdownMenuContext.Provider>
   );
 };
