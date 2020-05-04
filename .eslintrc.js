@@ -63,7 +63,7 @@ module.exports = {
         prop: 'parens-new-line',
       },
     ],
-    'react/jsx-max-props-per-line': ['error', { maximum: 4 }],
+    'react/jsx-max-props-per-line': ['error', { maximum: 5 }],
     'sort-imports': 'off',
     'import/order': 'off',
     'import/first': 'error',

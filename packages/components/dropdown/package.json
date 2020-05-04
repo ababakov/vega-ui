@@ -1,0 +1,21 @@
+{
+  "name": "@vega-ui/dropdown",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.js",
+  "types": "dist/components/dropdown/index.d.ts",
+  "author": "csssr",
+  "peerDependencies": {
+    "react": "^16"
+  },
+  "dependencies": {
+    "@gpn-design/uikit": "^1.0.2",
+    "@vega-ui/hooks": "0.0.1",
+    "@vega-ui/bem": "1.0.0",
+    "react-transition-group": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/react-transition-group": "^4.2.4"
+  }
+}

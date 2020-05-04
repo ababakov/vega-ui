@@ -1,0 +1,43 @@
+.VegaDropdown {
+  &__Root {
+    position: absolute;
+
+    z-index: 100;
+
+    padding: 18px var(--space-s);
+
+    box-sizing: border-box;
+
+    min-width: 240px;
+
+    background-color: var(--color-bg-default);
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    box-shadow: 0 4px 16px rgba(0, 32, 51, 0.18), 0 2px 2px rgba(0, 0, 0, 0.04);
+  }
+}
+
+.dropdown-enter {
+  opacity: 0;
+
+  transform: scale(0.9);
+}
+
+.dropdown-enter-active {
+  opacity: 1;
+
+  transition: opacity 300ms, transform 300ms;
+  transform: translateX(0);
+}
+
+.dropdown-exit {
+  opacity: 1;
+}
+
+.dropdown-exit-active {
+  opacity: 0;
+
+  transition: opacity 300ms, transform 300ms;
+  transform: scale(0.9);
+}
