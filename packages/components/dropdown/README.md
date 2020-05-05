@@ -79,18 +79,16 @@ type DropdownMenuProps = {
 
 ```
 { defaultActiveName: string } - активный элемент в меню по умолчанию
+```
 
 Возвращает
 
-```
-
+```ts
 isOpen: boolean - индикация того, что дропдаун открыт
 activeName: string - активный элемент в меню
 handleChangeActiveName: (name: string) => void - метод для изменения активного элемента меню
 toggleDropdownOpen: () => void - метод для изменения состояния дропдауна
 handleDropdownClose: () => void - метод для закрытия дропдауна
 handleDropdownOpen: () => void - метод для открытия дропдауна
-
-```
 
 ```
