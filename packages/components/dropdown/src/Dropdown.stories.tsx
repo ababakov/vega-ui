@@ -4,16 +4,22 @@ import { Text } from '@gpn-design/uikit/Text';
 import { storiesOf } from '@storybook/react';
 
 import { Dropdown } from './Dropdown';
+import { useDropdown } from './use-dropdown';
 
 storiesOf('ui/Dropdown', module).add('Dropdown', () => {
-  const [isOpen, setIsOpen] = React.useState<boolean>(false);
-  const [activeItem, setActiveItem] = React.useState<string>('first');
+  const {
+    isOpen,
+    handleChangeActiveName,
+    handleDropdownClose,
+    toggleDropdownOpen,
+    activeName,
+  } = useDropdown();
 
-  const triggerNode = <Button label="Click Me" onClick={(): void => setIsOpen(!isOpen)} />;
+  const triggerNode = <Button label="Click Me" onClick={toggleDropdownOpen} />;
 
   return (
-    <Dropdown isOpen={isOpen} trigger={triggerNode} onClose={(): void => setIsOpen(false)}>
-      <Dropdown.Menu activeName={activeItem} onChangeActive={setActiveItem}>
+    <Dropdown isOpen={isOpen} trigger={triggerNode} onClose={handleDropdownClose}>
+      <Dropdown.Menu activeName={activeName} onChangeActive={handleChangeActiveName}>
         <Dropdown.Item name="first">
           <Text>First</Text>
         </Dropdown.Item>

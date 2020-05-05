@@ -6,7 +6,7 @@ export type DropdownContextProps = {
 
 export const DropdownContext = React.createContext<DropdownContextProps>({ onClose: undefined });
 
-export const useDropdown = (): DropdownContextProps => {
+export const useDropdownContext = (): DropdownContextProps => {
   return React.useContext(DropdownContext);
 };
 

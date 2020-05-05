@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { cnDropdown } from './helpers/cnDropdown';
-import { useDropdown, useDropdownMenu } from './DropdownContext';
+import { useDropdownContext, useDropdownMenu } from './DropdownContext';
 
 import './Dropdown.css';
 
@@ -19,7 +19,7 @@ export type DropdownItemProps = {
 export const DropdownItem: React.FC<DropdownItemProps> = (props) => {
   const { className, children, as = 'a', onClick, name, testId, ...rest } = props;
 
-  const { onClose: onMenuClose } = useDropdown();
+  const { onClose: onMenuClose } = useDropdownContext();
   const { activeName, onChangeActive } = useDropdownMenu();
 
   const isActive: boolean = activeName === name;
