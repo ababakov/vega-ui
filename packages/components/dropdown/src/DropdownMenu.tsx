@@ -5,11 +5,12 @@ import { DropdownMenuContext } from './DropdownContext';
 
 import './Dropdown.css';
 
-type DropdownMenuProps = {
+export type DropdownMenuProps = {
   className?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   activeName: string;
   onChangeActive?: (name: string) => void;
+  testId?: string;
 };
 
 export const DropdownMenu: React.FC<DropdownMenuProps> = ({
@@ -17,12 +18,13 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
   children,
   activeName,
   onChangeActive,
+  testId,
   ...rest
 }) => {
   return (
     <DropdownMenuContext.Provider value={{ onChangeActive, activeName }}>
       <nav role="navigation">
-        <ul {...rest} className={cnDropdown('Menu').mix(className)}>
+        <ul {...rest} data-testid={testId} className={cnDropdown('Menu').mix(className)}>
           {children}
         </ul>
       </nav>

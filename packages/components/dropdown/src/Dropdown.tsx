@@ -9,13 +9,14 @@ import { DropdownMenu } from './DropdownMenu';
 
 import './Dropdown.css';
 
-type DropdownProps = {
-  trigger: React.ReactNode;
+export type DropdownProps = {
+  trigger?: React.ReactNode;
   onClose: (e?: MouseEvent | TouchEvent) => void;
   children?: React.ReactNode;
   isOpen: boolean;
   activeMenuValue?: string;
   className?: string;
+  testId?: string;
 };
 
 type Dropdown<T> = React.FC<T> & {
@@ -24,8 +25,12 @@ type Dropdown<T> = React.FC<T> & {
 };
 
 export const Dropdown: Dropdown<DropdownProps> = (props) => {
-  const { trigger, onClose, children, className, isOpen } = props;
+  const { trigger, onClose, children, className, isOpen, testId } = props;
   const dropdownRef = useRef(null);
+
+  const testID: Record<string, string> = {
+    root: `${testId}:Root`,
+  };
 
   useOnClickOutside({ ref: dropdownRef, handler: onClose });
 
@@ -34,7 +39,9 @@ export const Dropdown: Dropdown<DropdownProps> = (props) => {
       <div ref={dropdownRef}>
         {trigger}
         <CSSTransition timeout={300} classNames="dropdown" in={isOpen} mountOnEnter unmountOnExit>
-          <div className={cnDropdown('Root').mix(className)}>{children}</div>
+          <div data-testid={testID.root} className={cnDropdown('Root').mix(className)}>
+            {children}
+          </div>
         </CSSTransition>
       </div>
     </DropdownContext.Provider>
@@ -43,3 +50,7 @@ export const Dropdown: Dropdown<DropdownProps> = (props) => {
 
 Dropdown.Menu = DropdownMenu;
 Dropdown.Item = DropdownItem;
+
+Dropdown.defaultProps = {
+  testId: 'Dropdown',
+};

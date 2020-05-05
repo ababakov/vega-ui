@@ -12,6 +12,7 @@
   "scripts": {
     "test": "jest --runInBand",
     "coverage": "jest --all --coverage",
+    "coverage:open": "open coverage/lcov-report/index.html",
     "test:watch": "jest --runInBand --watch",
     "diff": "lerna diff",
     "bootstrap": "lerna bootstrap",

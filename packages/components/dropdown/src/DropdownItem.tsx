@@ -7,16 +7,17 @@ import './Dropdown.css';
 
 type LiMouseEvent = React.MouseEvent<HTMLLIElement, MouseEvent>;
 
-type DropdownItemProps = {
+export type DropdownItemProps = {
   className?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   as?: React.ElementType;
   onClick?: (e: LiMouseEvent) => void;
   name: string;
+  testId?: string;
 };
 
 export const DropdownItem: React.FC<DropdownItemProps> = (props) => {
-  const { className, children, as = 'a', onClick, name, ...rest } = props;
+  const { className, children, as = 'a', onClick, name, testId, ...rest } = props;
 
   const { onClose: onMenuClose } = useDropdown();
   const { activeName, onChangeActive } = useDropdownMenu();
@@ -37,10 +38,12 @@ export const DropdownItem: React.FC<DropdownItemProps> = (props) => {
 
   const ItemComponent = as;
 
-  const itemClassName: string = cnDropdown('Item').mix(className).state({ active: isActive });
-
+  const itemClassName: string = cnDropdown('Item')
+    .mix(className)
+    .state({ active: isActive })
+    .toString();
   return (
-    <li {...rest} className={itemClassName}>
+    <li {...rest} data-testid={testId} className={itemClassName}>
       <ItemComponent onClick={onItemClick}>{children}</ItemComponent>
     </li>
   );
