@@ -12,7 +12,7 @@ import './Dropdown.css';
 type DropdownProps = {
   trigger: React.ReactNode;
   onClose: (e?: MouseEvent | TouchEvent) => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   isOpen: boolean;
   activeMenuValue?: string;
   className?: string;
