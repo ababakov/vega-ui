@@ -47,7 +47,6 @@ type ModalProps = {
   hasOverlay?: boolean; // Нужно ли рендерить оверлей
   onOverlayClick?: (e: React.SyntheticEvent) => void; // Метод, который вызовется по клику на оверлей (по умолчанию onClose)
   rootSelector?: string; // Селектор, в котором рендерить модальное окон (по умолчанию body)
-  closeByEsc?: boolean; // Нужно ли закрывать модальное окно по нажатию на esc
 };
 ```
 

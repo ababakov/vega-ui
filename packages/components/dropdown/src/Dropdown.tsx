@@ -14,7 +14,6 @@ export type DropdownProps = {
   onClose: (e?: MouseEvent | TouchEvent) => void;
   children?: React.ReactNode;
   isOpen: boolean;
-  activeMenuValue?: string;
   className?: string;
   testId?: string;
 };

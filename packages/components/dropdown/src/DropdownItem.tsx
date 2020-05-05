@@ -31,7 +31,7 @@ export const DropdownItem: React.FC<DropdownItemProps> = (props) => {
     if (onMenuClose) {
       onMenuClose();
     }
-    if (onChangeActive) {
+    if (onChangeActive && !isActive) {
       onChangeActive(name);
     }
   };

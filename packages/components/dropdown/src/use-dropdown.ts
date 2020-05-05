@@ -6,6 +6,7 @@ type DropdownParams = {
   handleChangeActiveName: (name: string) => void;
   toggleDropdownOpen: () => void;
   handleDropdownClose: () => void;
+  handleDropdownOpen: () => void;
 };
 
 type Params = {
@@ -21,6 +22,7 @@ export const useDropdown = (
   const handleChangeActiveName = React.useCallback((name: string) => setActiveName(name), []);
   const toggleDropdownOpen = React.useCallback(() => setIsOpen(!isOpen), [isOpen]);
   const handleDropdownClose = React.useCallback(() => setIsOpen(false), []);
+  const handleDropdownOpen = React.useCallback(() => setIsOpen(true), []);
 
   return {
     isOpen,
@@ -28,5 +30,6 @@ export const useDropdown = (
     handleChangeActiveName,
     toggleDropdownOpen,
     handleDropdownClose,
+    handleDropdownOpen,
   };
 };
