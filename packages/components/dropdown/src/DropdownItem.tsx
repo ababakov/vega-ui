@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { cnDropdown } from './helpers/cnDropdown';
-import { useDropdownContext, useDropdownMenu } from './DropdownContext';
+import { useDropdownContext } from './DropdownContext';
 
 import './Dropdown.css';
 
@@ -10,19 +10,15 @@ type LiMouseEvent = React.MouseEvent<HTMLLIElement, MouseEvent>;
 export type DropdownItemProps = {
   className?: string;
   children?: React.ReactNode;
-  as?: React.ElementType;
   onClick?: (e: LiMouseEvent) => void;
-  name: string;
+  as?: React.ElementType;
   testId?: string;
 };
 
 export const DropdownItem: React.FC<DropdownItemProps> = (props) => {
-  const { className, children, as = 'a', onClick, name, testId, ...rest } = props;
+  const { className, children, onClick, testId, as = 'li', ...rest } = props;
 
   const { onClose: onMenuClose } = useDropdownContext();
-  const { activeName, onChangeActive } = useDropdownMenu();
-
-  const isActive: boolean = activeName === name;
 
   const onItemClick = (e: LiMouseEvent): void => {
     if (onClick) {
@@ -31,20 +27,14 @@ export const DropdownItem: React.FC<DropdownItemProps> = (props) => {
     if (onMenuClose) {
       onMenuClose();
     }
-    if (onChangeActive && !isActive) {
-      onChangeActive(name);
-    }
   };
 
   const ItemComponent = as;
 
-  const itemClassName: string = cnDropdown('Item')
-    .mix(className)
-    .state({ active: isActive })
-    .toString();
+  const itemClassName: string = cnDropdown('Item').mix(className).toString();
   return (
-    <li {...rest} data-testid={testId} className={itemClassName}>
-      <ItemComponent onClick={onItemClick}>{children}</ItemComponent>
-    </li>
+    <ItemComponent {...rest} onClick={onItemClick} data-testid={testId} className={itemClassName}>
+      {children}
+    </ItemComponent>
   );
 };

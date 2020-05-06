@@ -13,18 +13,22 @@ storiesOf('ui/Dropdown', module).add('Dropdown', () => {
     handleDropdownClose,
     toggleDropdownOpen,
     activeName,
-  } = useDropdown();
+  } = useDropdown({ defaultActiveName: 'first' });
 
   const triggerNode = <Button label="Click Me" onClick={toggleDropdownOpen} />;
 
   return (
     <Dropdown isOpen={isOpen} trigger={triggerNode} onClose={handleDropdownClose}>
       <Dropdown.Menu activeName={activeName} onChangeActive={handleChangeActiveName}>
-        <Dropdown.Item name="first">
-          <Text>First</Text>
+        <Dropdown.Item>
+          <Dropdown.Link name="first">
+            <Text>First</Text>
+          </Dropdown.Link>
         </Dropdown.Item>
-        <Dropdown.Item name="second">
-          <Text>Second</Text>
+        <Dropdown.Item>
+          <Dropdown.Link name="second">
+            <Text>Second</Text>
+          </Dropdown.Link>
         </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>

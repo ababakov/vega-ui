@@ -8,7 +8,7 @@ import './Dropdown.css';
 export type DropdownMenuProps = {
   className?: string;
   children?: React.ReactNode;
-  activeName: string;
+  activeName?: string;
   onChangeActive?: (name: string) => void;
   testId?: string;
 };

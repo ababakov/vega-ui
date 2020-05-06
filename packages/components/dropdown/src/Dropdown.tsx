@@ -5,6 +5,7 @@ import { useOnClickOutside } from '@vega-ui/hooks';
 import { cnDropdown } from './helpers/cnDropdown';
 import { DropdownContext } from './DropdownContext';
 import { DropdownItem } from './DropdownItem';
+import { DropdownLink } from './DropdownLink';
 import { DropdownMenu } from './DropdownMenu';
 
 import './Dropdown.css';
@@ -21,15 +22,12 @@ export type DropdownProps = {
 type Dropdown<T> = React.FC<T> & {
   Menu: typeof DropdownMenu;
   Item: typeof DropdownItem;
+  Link: typeof DropdownLink;
 };
 
 export const Dropdown: Dropdown<DropdownProps> = (props) => {
-  const { trigger, onClose, children, className, isOpen, testId } = props;
+  const { trigger, onClose, children, className, isOpen, testId, ...rest } = props;
   const dropdownRef = useRef(null);
-
-  const testID: Record<string, string> = {
-    root: `${testId}:Root`,
-  };
 
   useOnClickOutside({ ref: dropdownRef, handler: onClose });
 
@@ -38,7 +36,7 @@ export const Dropdown: Dropdown<DropdownProps> = (props) => {
       <div ref={dropdownRef}>
         {trigger}
         <CSSTransition timeout={300} classNames="dropdown" in={isOpen} mountOnEnter unmountOnExit>
-          <div data-testid={testID.root} className={cnDropdown('Root').mix(className)}>
+          <div {...rest} data-testid={testId} className={cnDropdown('Root').mix(className)}>
             {children}
           </div>
         </CSSTransition>
@@ -49,7 +47,4 @@ export const Dropdown: Dropdown<DropdownProps> = (props) => {
 
 Dropdown.Menu = DropdownMenu;
 Dropdown.Item = DropdownItem;
-
-Dropdown.defaultProps = {
-  testId: 'Dropdown',
-};
+Dropdown.Link = DropdownLink;

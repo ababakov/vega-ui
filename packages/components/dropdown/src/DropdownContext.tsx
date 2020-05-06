@@ -12,7 +12,7 @@ export const useDropdownContext = (): DropdownContextProps => {
 
 export type DropdownMenuContextProps = {
   onChangeActive?: (name: string) => void;
-  activeName: string;
+  activeName?: string;
 };
 
 export const DropdownMenuContext = React.createContext<DropdownMenuContextProps>({

@@ -25,13 +25,15 @@
     list-style: none;
   }
 
-  &__Item {
+  &__Link {
     padding: 6px var(--space-s);
 
     &.is-active {
       background: var(--color-bg-stripe);
     }
+  }
 
+  &__Item {
     &:focus-within,
     &:focus {
       outline: none;

@@ -1,3 +1,3 @@
-import { bemCn } from '@vega-ui/bem';
+import bemCn from 'bem-cn';
 
 export const cnDropdown = bemCn('VegaDropdown');

@@ -2,33 +2,37 @@ import React from 'react';
 import { fireEvent, render, RenderResult, screen } from '@testing-library/react';
 
 import { Dropdown, DropdownProps } from './Dropdown';
-import { DropdownItemProps } from './DropdownItem';
+import { DropdownLinkProps } from './DropdownLink';
 import { DropdownMenuProps } from './DropdownMenu';
 
 const renderComponent = (
   dropdownProps: DropdownProps,
   menuProps: DropdownMenuProps,
-  itemProps: DropdownItemProps,
+  itemProps: DropdownLinkProps,
 ): RenderResult => {
   const trigger = <button type="button">click me</button>;
 
   return render(
     <Dropdown {...dropdownProps} trigger={trigger}>
       <Dropdown.Menu {...menuProps}>
-        <Dropdown.Item {...itemProps}>TEST</Dropdown.Item>
-        <Dropdown.Item name="second">SECOND</Dropdown.Item>
+        <Dropdown.Item>
+          <Dropdown.Link {...itemProps}>TEST</Dropdown.Link>
+        </Dropdown.Item>
+        <Dropdown.Item>
+          <Dropdown.Link name="second">SECOND</Dropdown.Link>
+        </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>,
   );
 };
 
-const findItem = (testId = 'test-item'): ChildNode => {
-  return screen.getByTestId(testId).firstChild as ChildNode;
+const findLink = (testId = 'test-item'): Element => {
+  return screen.getByTestId(testId);
 };
 
 const baseDropdownProps: DropdownProps = { onClose: jest.fn(), isOpen: true };
 const baseMenuProps: DropdownMenuProps = { activeName: 'test' };
-const baseItemProps: DropdownItemProps = { name: 'test' };
+const baseItemProps: DropdownLinkProps = { name: 'test' };
 
 describe('Dropdown', () => {
   test('рендерится без ошибок', () => {
@@ -42,7 +46,7 @@ describe('Dropdown', () => {
       { ...baseItemProps },
     );
 
-    expect(screen.getByTestId('TestDropdown:Root')).toBeInTheDocument();
+    expect(screen.getByTestId('TestDropdown')).toBeInTheDocument();
   });
 
   test('dropdown не рендерится, если isOpen: false', () => {
@@ -75,7 +79,7 @@ describe('DropdownItem', () => {
       { ...baseItemProps, testId: 'test-item' },
     );
 
-    const item = findItem();
+    const item = findLink();
 
     fireEvent.click(item);
     expect(onChangeActive).toBeCalled();
@@ -89,26 +93,10 @@ describe('DropdownItem', () => {
       testId: 'test-item',
     });
 
-    const item = findItem();
+    const item = findLink();
 
     fireEvent.click(item);
     expect(onClose).toBeCalled();
-  });
-
-  test('вызывается onClick по клику на Item', () => {
-    const onClick = jest.fn();
-
-    renderComponent(baseDropdownProps, baseMenuProps, {
-      ...baseItemProps,
-      testId: 'test-item',
-      onClick,
-    });
-
-    const item = findItem();
-
-    fireEvent.click(item);
-
-    expect(onClick).toBeCalled();
   });
 
   test('в Item прокидывается любой компонент', () => {
@@ -118,8 +106,8 @@ describe('DropdownItem', () => {
       as: 'span',
     });
 
-    const item = findItem();
+    const item = findLink();
 
-    expect(item.nodeName).toBe('SPAN');
+    expect(item.tagName).toBe('SPAN');
   });
 });

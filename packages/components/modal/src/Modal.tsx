@@ -34,7 +34,7 @@ interface TypeModal<T> extends React.FC<T>, DivProps {
 
 const ESCAPE_CODE = 'Escape';
 
-export const Modal: TypeModal<ModalProps> = (props) => {
+export const Modal: Modal<ModalProps> = (props) => {
   const {
     hasCloseButton,
     onClose,
