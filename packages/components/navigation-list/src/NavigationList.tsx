@@ -11,12 +11,14 @@ export type NavigationListProps = {
   ordered?: boolean;
   start?: number;
   className?: string;
+  testId?: string;
 };
 
 export const NavigationList: React.FC<NavigationListProps> = ({
   ordered = false,
   start = 0,
   className,
+  testId = 'VegaNavigationList',
   children,
 }) => {
   const Tag = ordered ? 'ol' : 'ul';
@@ -29,7 +31,7 @@ export const NavigationList: React.FC<NavigationListProps> = ({
   }, [ordered, start]);
 
   return (
-    <Tag ref={ref} className={cnNavigationList({ ordered }).mix(className)}>
+    <Tag ref={ref} className={cnNavigationList({ ordered }).mix(className)} data-testid={testId}>
       {children}
     </Tag>
   );
@@ -38,6 +40,7 @@ export const NavigationList: React.FC<NavigationListProps> = ({
 export type NavigationListItemProps = {
   active?: boolean;
   className?: string;
+  testId?: string;
   onClick?: (event: React.SyntheticEvent) => void;
 };
 
@@ -45,6 +48,7 @@ export const NavigationListItem: React.FC<NavigationListItemProps> = ({
   active,
   className,
   onClick,
+  testId = 'VegaNavigationListItem',
   children,
 }) => {
   const handleClick = (event: React.SyntheticEvent): void => {
@@ -61,6 +65,7 @@ export const NavigationListItem: React.FC<NavigationListItemProps> = ({
       onClick={handleClick}
       onKeyUp={(event): void => (event.key === 'Enter' ? handleClick(event) : undefined)}
       className={cnNavigationListItem({ active }).mix(className)}
+      data-testid={testId}
     >
       {children}
     </li>
@@ -69,10 +74,19 @@ export const NavigationListItem: React.FC<NavigationListItemProps> = ({
 
 export type NavigationListDelimiterProps = {
   resetCounter?: boolean;
+  className?: string;
+  testId?: string;
 };
 
 export const NavigationListDelimiter: React.FC<NavigationListDelimiterProps> = ({
   resetCounter = false,
+  className,
+  testId = 'VegaNavigationListDelimiter',
 }) => {
-  return <div className={cnNavigationListDelimiter({ resetCounter })} />;
+  return (
+    <div
+      className={cnNavigationListDelimiter({ resetCounter }).mix(className)}
+      data-testid={testId}
+    />
+  );
 };

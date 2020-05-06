@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, RenderResult } from '@testing-library/react';
+import { fireEvent, render, RenderResult, screen } from '@testing-library/react';
 
 import {
   NavigationList,
@@ -27,88 +27,55 @@ const renderComponent = (
   );
 };
 
-// const findLink = (testId = 'test-item'): Element => {
-//   return screen.getByTestId(testId);
-// };
-
-// const baseListProps: NavigationListProps = {};
-// const baseItemProps: NavigationListItemProps = {};
-// const baseDelimiterProps: NavigationListDelimiterProps = {};
-
-describe('Dropdown', () => {
+describe('NavigationList', () => {
   test('рендерится без ошибок', () => {
     renderComponent({}, {}, {});
   });
+  test('для нумерации добавляется класс ordered', () => {
+    renderComponent({ ordered: true, testId: 'list' }, {}, {});
 
-  //   test('dropdown рендерится, если isOpen: true', () => {
-  //     renderComponent(
-  //       { ...baseDropdownProps, testId: 'TestDropdown' },
-  //       { ...baseMenuProps },
-  //       { ...baseItemProps },
-  //     );
+    const list = screen.getByTestId('list');
 
-  //     expect(screen.getByTestId('TestDropdown')).toBeInTheDocument();
-  //   });
-
-  //   test('dropdown не рендерится, если isOpen: false', () => {
-  //     renderComponent(
-  //       { ...baseDropdownProps, isOpen: false },
-  //       { ...baseMenuProps },
-  //       { ...baseItemProps },
-  //     );
-
-  //     const dropdownItem = screen.queryByText('TEST');
-
-  //     expect(dropdownItem).not.toBeInTheDocument();
-  //   });
+    expect(list.classList.contains('VegaNavigationList_ordered')).toBe(true);
+  });
 });
 
-// describe('DropdownItem', () => {
-//   test('проставляется класс is-active для активного элемента', () => {
-//     renderComponent(baseDropdownProps, baseMenuProps, { ...baseItemProps, testId: 'test-item' });
+describe('NavigationListItem', () => {
+  test('к активному элементу добавляется active класс', () => {
+    renderComponent({}, { active: true, testId: 'item' }, {});
 
-//     const item = screen.getByTestId('test-item');
+    const item = screen.getByTestId('item');
 
-//     expect(item.classList.contains('is-active')).toBe(true);
-//   });
+    expect(item.classList.contains('VegaNavigationListItem_active')).toBe(true);
+  });
+  test('при клике по элементу срабатывает onClick', () => {
+    const onClick = jest.fn();
 
-//   test('вызывается onChangeActive по клику на Item', () => {
-//     const onChangeActive = jest.fn();
-//     renderComponent(
-//       baseDropdownProps,
-//       { ...baseMenuProps, onChangeActive, activeName: 'second' },
-//       { ...baseItemProps, testId: 'test-item' },
-//     );
+    renderComponent({}, { onClick, testId: 'item' }, {});
 
-//     const item = findLink();
+    const item = screen.getByTestId('item');
 
-//     fireEvent.click(item);
-//     expect(onChangeActive).toBeCalled();
-//   });
+    fireEvent.click(item);
+    expect(onClick).toBeCalled();
+  });
+  test('при выборе элемента через Enter срабатывает onClick', () => {
+    const onClick = jest.fn();
 
-//   test('вызывается onClose по клику на Item', () => {
-//     const onClose = jest.fn();
+    renderComponent({}, { onClick, testId: 'item' }, {});
 
-//     renderComponent({ ...baseDropdownProps, onClose }, baseMenuProps, {
-//       ...baseItemProps,
-//       testId: 'test-item',
-//     });
+    const item = screen.getByTestId('item');
 
-//     const item = findLink();
+    fireEvent.keyUp(item, { key: 'Enter', code: 'Enter' });
+    expect(onClick).toBeCalled();
+  });
+});
 
-//     fireEvent.click(item);
-//     expect(onClose).toBeCalled();
-//   });
+describe('NavigationListDelimiter', () => {
+  test('добавляется resetCounter класс по требованию', () => {
+    renderComponent({}, {}, { resetCounter: true, testId: 'delimiter' });
 
-//   test('в Item прокидывается любой компонент', () => {
-//     renderComponent(baseDropdownProps, baseMenuProps, {
-//       ...baseItemProps,
-//       testId: 'test-item',
-//       as: 'span',
-//     });
+    const item = screen.getByTestId('delimiter');
 
-//     const item = findLink();
-
-//     expect(item.tagName).toBe('SPAN');
-//   });
-// });
+    expect(item.classList.contains('VegaNavigationListDelimiter_resetCounter')).toBe(true);
+  });
+});
