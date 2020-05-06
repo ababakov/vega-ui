@@ -52,7 +52,8 @@
     "packages/components/switch",
     "packages/components/text",
     "packages/components/text-field",
-    "packages/components/user"
+    "packages/components/user",
+    "packages/components/navigation-list"
   ],
   "devDependencies": {
     "@babel/core": "^7.9.0",

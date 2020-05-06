@@ -11,5 +11,7 @@
   "peerDependencies": {
     "react": "^16"
   },
-  "dependencies": {}
+  "devDependencies": {
+    "@vega-ui/icons": "0.0.1"
+  }
 }

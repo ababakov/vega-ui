@@ -24,12 +24,14 @@
 
   color: var(--color-typo-primary);
 
+  background-color: transparent;
+
   &_active {
-    background-color: rgba(246, 251, 253, 0.1);
+    background-color: var(--color-control-bg-ghost);
   }
 
-  &:hover {
-    background-color: rgba(246, 251, 253, 0.1);
+  &:hover:not(&_active) {
+    background-color: var(--color-bg-stripe);
   }
 }
 

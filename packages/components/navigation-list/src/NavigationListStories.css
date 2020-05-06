@@ -3,13 +3,13 @@
     width: 302px;
   }
 
-  &-icon {
-    margin-left: auto;
-  }
-
   &-withIcon {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+  }
+
+  &-icon {
+    margin-left: auto;
   }
 }
