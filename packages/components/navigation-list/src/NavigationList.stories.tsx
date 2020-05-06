@@ -1,8 +1,8 @@
 import React from 'react';
-import { cn } from '@gpn-design/uikit/__internal__/src/utils/bem';
 import { boolean, number, withKnobs } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import { IconCheck } from '@vega-ui/icons';
+import { block } from 'bem-cn';
 
 import {
   NavigationList,
@@ -14,7 +14,7 @@ import {
 
 import './NavigationListStories.css';
 
-const cnStories = cn('NavigationListStories');
+const cnStories = block('NavigationListStories');
 
 const knobs = (): NavigationListProps & NavigationListDelimiterProps => ({
   ordered: boolean('ordered', false),
@@ -36,9 +36,9 @@ storiesOf('ui/NavigationList', module)
   .add('C иконкой', () => (
     <div className={cnStories('wrapper')}>
       <NavigationList {...knobs()}>
-        <NavigationListItem className={cnStories('withIcon')}>
+        <NavigationListItem className={cnStories('withIcon').toString()}>
           Описание проекта
-          <IconCheck size="s" view="success" className={cnStories('icon')} />
+          <IconCheck size="s" view="success" className={cnStories('icon').toString()} />
         </NavigationListItem>
         <NavigationListItem active>Участники</NavigationListItem>
         <NavigationListItem>Связанные документы и файлы</NavigationListItem>

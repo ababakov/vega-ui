@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import { cn } from '@gpn-design/uikit/__internal__/src/utils/bem';
+import { block } from 'bem-cn';
 
 import './NavigationList.css';
 
-const cnNavigationList = cn('VegaNavigationList');
-const cnNavigationListItem = cn('VegaNavigationListItem');
-const cnNavigationListDelimiter = cn('VegaNavigationListDelimiter');
+const cnNavigationList = block('VegaNavigationList');
+const cnNavigationListItem = block('VegaNavigationListItem');
+const cnNavigationListDelimiter = block('VegaNavigationListDelimiter');
 
 export type NavigationListProps = {
   ordered?: boolean;
@@ -29,7 +29,7 @@ export const NavigationList: React.FC<NavigationListProps> = ({
   }, [ordered, start]);
 
   return (
-    <Tag ref={ref} className={cnNavigationList({ ordered }, [className])}>
+    <Tag ref={ref} className={cnNavigationList({ ordered }).mix(className)}>
       {children}
     </Tag>
   );
@@ -39,7 +39,6 @@ export type NavigationListItemProps = {
   active?: boolean;
   className?: string;
   onClick?: (event: React.SyntheticEvent) => void;
-  children: React.ReactNode;
 };
 
 export const NavigationListItem: React.FC<NavigationListItemProps> = ({
@@ -61,7 +60,7 @@ export const NavigationListItem: React.FC<NavigationListItemProps> = ({
       tabIndex={0}
       onClick={handleClick}
       onKeyUp={(event): void => (event.key === 'Enter' ? handleClick(event) : undefined)}
-      className={cnNavigationListItem({ active }, [className])}
+      className={cnNavigationListItem({ active }).mix(className)}
     >
       {children}
     </li>

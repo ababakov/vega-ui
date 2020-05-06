@@ -13,5 +13,8 @@
   },
   "devDependencies": {
     "@vega-ui/icons": "0.0.1"
+  },
+  "dependencies": {
+    "bem-cn": "^3.0.1"
   }
 }

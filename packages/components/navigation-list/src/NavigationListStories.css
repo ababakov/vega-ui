@@ -1,15 +1,15 @@
 .NavigationListStories {
-  &-wrapper {
+  &__wrapper {
     width: 302px;
   }
 
-  &-withIcon {
+  &__withIcon {
     display: flex;
     justify-content: flex-start;
     align-items: center;
   }
 
-  &-icon {
+  &__icon {
     margin-left: auto;
   }
 }
