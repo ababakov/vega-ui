@@ -1,0 +1,53 @@
+.VegaNavigationList {
+  --vega-navigation-list-counter-start: 0;
+  margin: 0;
+  padding: 0;
+
+  list-style-type: none;
+
+  &_ordered {
+    counter-reset: vega-navigation-list-counter var(--vega-navigation-list-counter-start);
+  }
+}
+
+.VegaNavigationListItem {
+  counter-increment: vega-navigation-list-counter;
+
+  padding: 8px 12px;
+
+  height: 40px;
+
+  font-size: 16px;
+  line-height: 40px;
+
+  cursor: pointer;
+
+  color: var(--color-typo-primary);
+
+  &_active {
+    background-color: rgba(246, 251, 253, 0.1);
+  }
+
+  &:hover {
+    background-color: rgba(246, 251, 253, 0.1);
+  }
+}
+
+.VegaNavigationList_ordered .VegaNavigationListItem {
+  &::before {
+    content: counter(vega-navigation-list-counter) '.\00A0';
+  }
+}
+
+.VegaNavigationListDelimiter {
+  margin-top: 7px;
+  margin-bottom: 7px;
+
+  height: 2px;
+
+  background-color: #2e353b;
+
+  &_resetCounter {
+    counter-reset: vega-navigation-list-counter;
+  }
+}

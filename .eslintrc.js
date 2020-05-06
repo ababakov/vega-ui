@@ -47,6 +47,7 @@ module.exports = {
   ],
   rules: {
     'quote-props': ['error', 'consistent-as-needed'],
+    'no-unused-expressions': ["error", { "allowShortCircuit": true }],
     'react/prop-types': 'off',
     'react/destructuring-assignment': 'off',
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
