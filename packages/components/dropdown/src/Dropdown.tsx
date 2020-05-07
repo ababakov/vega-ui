@@ -1,12 +1,14 @@
 import React, { useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
-import { useOnClickOutside } from '@vega-ui/hooks';
+import { useOnClickOutside, usePortalDomNode } from '@vega-ui/hooks';
 
 import { cnDropdown } from './helpers/cnDropdown';
 import { DropdownContext } from './DropdownContext';
 import { DropdownItem } from './DropdownItem';
 import { DropdownLink } from './DropdownLink';
 import { DropdownMenu } from './DropdownMenu';
+import { DropdownTrigger } from './DropdownTrigger';
 
 import './Dropdown.css';
 
@@ -18,28 +20,39 @@ export type DropdownProps = {
   children?: React.ReactNode;
   isOpen: boolean;
   className?: string;
+  portalId?: string;
+  portal?: boolean;
 } & ElementsProps['div'];
 
 type Dropdown<T> = React.FC<T> & {
   Menu: typeof DropdownMenu;
   Item: typeof DropdownItem;
   Link: typeof DropdownLink;
+  Trigger: typeof DropdownTrigger;
 };
 
 export const Dropdown: Dropdown<DropdownProps> = (props) => {
-  const { trigger, onClose, children, className, isOpen, ...rest } = props;
+  const { trigger, onClose, children, className, isOpen, portalId, portal, ...rest } = props;
   const dropdownRef = useRef(null);
 
   useOnClickOutside({
     ref: dropdownRef,
-    handler: () => {
-      if (isOpen) {
+    handler: (e) => {
+      const target = e.target as HTMLElement;
+      const parentTargetId = target?.parentElement?.id;
+      if (isOpen && parentTargetId !== portalId) {
         onClose();
       }
     },
   });
 
-  return (
+  const portalNode = usePortalDomNode(`#${portalId}`);
+
+  if (!portalNode && !trigger) {
+    return null;
+  }
+
+  const content = (
     <DropdownContext.Provider value={{ onClose }}>
       <div ref={dropdownRef}>
         {trigger}
@@ -51,8 +64,15 @@ export const Dropdown: Dropdown<DropdownProps> = (props) => {
       </div>
     </DropdownContext.Provider>
   );
+
+  if (portalNode && portal) {
+    return createPortal(content, portalNode);
+  }
+
+  return content;
 };
 
 Dropdown.Menu = DropdownMenu;
 Dropdown.Item = DropdownItem;
 Dropdown.Link = DropdownLink;
+Dropdown.Trigger = DropdownTrigger;
