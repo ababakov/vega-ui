@@ -1,0 +1,15 @@
+.NavigationListStories {
+  &__wrapper {
+    width: 960px;
+  }
+
+  &__case-1 {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__case-2 {
+    display: flex;
+    justify-content: space-between;
+  }
+}

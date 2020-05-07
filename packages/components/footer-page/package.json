@@ -1,0 +1,20 @@
+{
+  "name": "@vega-ui/footer-page",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.js",
+  "author": "csssr",
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "react": "^16"
+  },
+  "devDependencies": {
+    "@vega-ui/button": "0.0.1"
+  },
+  "dependencies": {
+    "bem-cn": "^3.0.1"
+  }
+}
