@@ -14,6 +14,7 @@ const DropdownMenu = (): React.ReactElement => {
       <Dropdown.Item isActive={active === 'first'} onClick={(): void => setActive('first')}>
         <Text>First</Text>
       </Dropdown.Item>
+      <Dropdown.Delimeter />
       <Dropdown.Item isActive={active === 'second'} onClick={(): void => setActive('second')}>
         <Text>Second</Text>
       </Dropdown.Item>

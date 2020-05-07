@@ -4,6 +4,7 @@ import { CSSTransition } from 'react-transition-group';
 import { PossibleCloseEvent, usePortalDomNode, useRootClose } from '@vega-ui/hooks';
 
 import { cnDropdown } from './helpers/cnDropdown';
+import { DropdownDelimeter } from './DropdownDelimeter';
 import { DropdownItem } from './DropdownItem';
 import { DropdownMenu } from './DropdownMenu';
 import { DropdownTrigger } from './DropdownTrigger';
@@ -26,6 +27,7 @@ type Dropdown<T> = React.FC<T> & {
   Menu: typeof DropdownMenu;
   Item: typeof DropdownItem;
   Trigger: typeof DropdownTrigger;
+  Delimeter: typeof DropdownDelimeter;
 };
 
 export const Dropdown: Dropdown<DropdownProps> = (props) => {
@@ -80,3 +82,4 @@ export const Dropdown: Dropdown<DropdownProps> = (props) => {
 Dropdown.Menu = DropdownMenu;
 Dropdown.Item = DropdownItem;
 Dropdown.Trigger = DropdownTrigger;
+Dropdown.Delimeter = DropdownDelimeter;
