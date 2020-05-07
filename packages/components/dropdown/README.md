@@ -28,12 +28,12 @@ export const MyComponent = () => {
 
   return (
     <Dropdown isOpen={isOpen} trigger={triggerNode} onClose={handleDropdownClose}>
-      <Dropdown.Menu activeName={activeName} onChangeActive={handleChangeActiveName}>
-        <Dropdown.Item name="first">
-          <Text>First</Text>
+      <Dropdown.Menu>
+        <Dropdown.Item>
+          <Dropdown.Link>First</Dropdown.Link>
         </Dropdown.Item>
-        <Dropdown.Item name="second">
-          <Text>Second</Text>
+        <Dropdown.Item>
+          <Dropdown.Link>Second</Dropdown.Link>
         </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
@@ -41,54 +41,70 @@ export const MyComponent = () => {
 };
 ```
 
+### Пример использования с React-порталом
+
+```jsx
+<>
+  <Dropdown.Trigger id="trigger">
+    <Button label="Click Me" onClick={toggleDropdownOpen} />
+  </Dropdown.Trigger>
+  <Dropdown portalId="trigger" portal isOpen={isOpen} onClose={handleClose}>
+    <DropdownMenu />
+  </Dropdown>
+</>
+```
+
 ### API компонента
 
 ```ts
 type DropdownProps = {
-  trigger?: React.ReactNode; // Компонент - триггер для дропдауна
+  trigger?: React.ReactNode; // Компонент-триггер для дропдауна
   onClose: (e?: MouseEvent | TouchEvent) => void; // Метод для закрытия дропдауна
   children?: React.ReactNode;
   isOpen: boolean; // Индикация того, что дропдаун открыт
   className?: string;
-  testId?: string;
+  portal?: boolean; //Должен ли компонент рендерится в портале
+  portalId?: string; // id для контейнера-порталf
 };
 
 type DropdownItemProps = {
   className?: string;
   children?: React.ReactNode;
-  as?: React.ElementType; // Элемент, который будет рендериться на месте Item. По умолчанию <a></a>
-  onClick?: (e: LiMouseEvent) => void;
-  name: string; // Имя элемента, по которому будет вычислять активный ли это элемент
-  testId?: string;
+  as?: React.ElementType; // Элемент, который будет рендериться на месте Item. По умолчанию <li></li>
+  onClick?: (e: MouseEvent) => void;
 };
 
 type DropdownMenuProps = {
   className?: string;
   children?: React.ReactNode;
-  activeName: string; // Имя активного элемента
-  onChangeActive?: (name: string) => void; // Метод для изменения активного элемента
-  testId?: string;
+};
+
+type DropdownLinkProps = {
+  className?: string;
+  children?: React.ReactNode;
+  as?: React.ElementType;
+  isActive?: boolean; // является ли эта ссылка активной
+};
+
+type DropdownTriggerProps = {
+  id: string;
+  children?: React.ReactNode;
+  className?: string;
 };
 ```
+
+Если передается проп `portal`, то проп trigger игнорируется. Для триггера используйте компонент `Dropdown.Trigger`.
 
 ### API useDropdown
 
 Хук для упрощения работы с дропдауном
 
-Принимает на вход
-
-```
-{ defaultActiveName: string } - активный элемент в меню по умолчанию
-```
-
 Возвращает
 
 ```ts
 isOpen: boolean - индикация того, что дропдаун открыт
-activeName: string - активный элемент в меню
-handleChangeActiveName: (name: string) => void - метод для изменения активного элемента меню
-toggleDropdownOpen: () => void - метод для изменения состояния дропдауна
-handleDropdownClose: () => void - метод для закрытия дропдауна
-handleDropdownOpen: () => void - метод для открытия дропдауна
+toggle: () => void - метод для изменения состояния дропдауна
+close: () => void - метод для закрытия дропдауна
+open: () => void - метод для открытия дропдауна
 
 ```
