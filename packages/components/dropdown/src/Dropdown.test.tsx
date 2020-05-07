@@ -23,9 +23,9 @@ const renderComponent = (componentsProps: ComponentsProps = {}): RenderResult =>
   };
 
   return render(
-    <Dropdown {...props.dropdownProps} trigger={trigger} data-testid="Dropdown:root">
+    <Dropdown {...props.dropdownProps} trigger={trigger} data-testid="Dropdown:Root">
       <Dropdown.Menu {...props.menuProps}>
-        <Dropdown.Item>
+        <Dropdown.Item data-testid="Dropdown:Item">
           <Dropdown.Link isActive {...props.itemProps} data-testid="Dropdown:Link">
             TEST
           </Dropdown.Link>
@@ -50,7 +50,7 @@ describe('Dropdown', () => {
   test('dropdown рендерится, если isOpen: true', () => {
     renderComponent();
 
-    expect(screen.getByTestId('Dropdown:root')).toBeInTheDocument();
+    expect(screen.getByTestId('Dropdown:Root')).toBeInTheDocument();
   });
 
   test('dropdown не рендерится, если isOpen: false', () => {
@@ -60,9 +60,46 @@ describe('Dropdown', () => {
 
     expect(dropdownItem).not.toBeInTheDocument();
   });
+
+  describe('Рендер с использованием портала', () => {
+    test('корректно рендерится', () => {
+      render(
+        <>
+          <Dropdown.Trigger id="test-trigger">
+            <button type="button">Click me</button>
+          </Dropdown.Trigger>
+          <Dropdown
+            onClose={jest.fn()}
+            isOpen
+            portal
+            portalId="test-trigger"
+            data-testid="portal-dropdown"
+          >
+            test data
+          </Dropdown>
+        </>,
+      );
+
+      expect(screen.getByTestId('portal-dropdown')).toBeInTheDocument();
+    });
+  });
 });
 
 describe('DropdownItem', () => {
+  test('вызывается onClose по клику на Item', () => {
+    const onClose = jest.fn();
+
+    renderComponent({ dropdownProps: { onClose } });
+
+    const item = screen.getByTestId('Dropdown:Item');
+
+    fireEvent.click(item.firstChild as ChildNode);
+
+    expect(onClose).toBeCalled();
+  });
+});
+
+describe('DropdownLink', () => {
   test('проставляется класс is-active для активного элемента', () => {
     renderComponent();
 
@@ -71,18 +108,7 @@ describe('DropdownItem', () => {
     expect(item.classList.contains('is-active')).toBe(true);
   });
 
-  test('вызывается onClose по клику на Item', () => {
-    const onClose = jest.fn();
-
-    renderComponent();
-
-    const item = findLink();
-
-    fireEvent.click(item);
-    expect(onClose).toBeCalled();
-  });
-
-  test('в Item прокидывается любой компонент', () => {
+  test('в Link прокидывается любой компонент', () => {
     renderComponent({ itemProps: { as: 'span' } });
 
     const item = findLink();
