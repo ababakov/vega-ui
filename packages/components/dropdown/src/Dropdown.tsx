@@ -10,14 +10,15 @@ import { DropdownMenu } from './DropdownMenu';
 
 import './Dropdown.css';
 
+type ElementsProps = JSX.IntrinsicElements;
+
 export type DropdownProps = {
   trigger?: React.ReactNode;
   onClose: (e?: MouseEvent | TouchEvent) => void;
   children?: React.ReactNode;
   isOpen: boolean;
   className?: string;
-  testId?: string;
-};
+} & ElementsProps['div'];
 
 type Dropdown<T> = React.FC<T> & {
   Menu: typeof DropdownMenu;
@@ -26,17 +27,24 @@ type Dropdown<T> = React.FC<T> & {
 };
 
 export const Dropdown: Dropdown<DropdownProps> = (props) => {
-  const { trigger, onClose, children, className, isOpen, testId, ...rest } = props;
+  const { trigger, onClose, children, className, isOpen, ...rest } = props;
   const dropdownRef = useRef(null);
 
-  useOnClickOutside({ ref: dropdownRef, handler: onClose });
+  useOnClickOutside({
+    ref: dropdownRef,
+    handler: () => {
+      if (isOpen) {
+        onClose();
+      }
+    },
+  });
 
   return (
     <DropdownContext.Provider value={{ onClose }}>
       <div ref={dropdownRef}>
         {trigger}
         <CSSTransition timeout={300} classNames="dropdown" in={isOpen} mountOnEnter unmountOnExit>
-          <div {...rest} data-testid={testId} className={cnDropdown('Root').mix(className)}>
+          <div {...rest} className={cnDropdown('Root').mix(className)}>
             {children}
           </div>
         </CSSTransition>

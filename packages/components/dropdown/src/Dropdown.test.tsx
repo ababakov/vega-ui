@@ -5,56 +5,56 @@ import { Dropdown, DropdownProps } from './Dropdown';
 import { DropdownLinkProps } from './DropdownLink';
 import { DropdownMenuProps } from './DropdownMenu';
 
-const renderComponent = (
-  dropdownProps: DropdownProps,
-  menuProps: DropdownMenuProps,
-  itemProps: DropdownLinkProps,
-): RenderResult => {
+const baseDropdownProps: DropdownProps = { onClose: jest.fn(), isOpen: true };
+
+type ComponentsProps = {
+  dropdownProps?: Partial<DropdownProps>;
+  menuProps?: Partial<DropdownMenuProps>;
+  itemProps?: Partial<DropdownLinkProps>;
+};
+
+const renderComponent = (componentsProps: ComponentsProps = {}): RenderResult => {
+  const { dropdownProps, menuProps, itemProps } = componentsProps;
   const trigger = <button type="button">click me</button>;
+  const props = {
+    dropdownProps: { ...baseDropdownProps, ...dropdownProps },
+    menuProps,
+    itemProps,
+  };
 
   return render(
-    <Dropdown {...dropdownProps} trigger={trigger}>
-      <Dropdown.Menu {...menuProps}>
+    <Dropdown {...props.dropdownProps} trigger={trigger} data-testid="Dropdown:root">
+      <Dropdown.Menu {...props.menuProps}>
         <Dropdown.Item>
-          <Dropdown.Link {...itemProps}>TEST</Dropdown.Link>
+          <Dropdown.Link isActive {...props.itemProps} data-testid="Dropdown:Link">
+            TEST
+          </Dropdown.Link>
         </Dropdown.Item>
         <Dropdown.Item>
-          <Dropdown.Link name="second">SECOND</Dropdown.Link>
+          <Dropdown.Link>SECOND</Dropdown.Link>
         </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>,
   );
 };
 
-const findLink = (testId = 'test-item'): Element => {
+const findLink = (testId = 'Dropdown:Link'): Element => {
   return screen.getByTestId(testId);
 };
 
-const baseDropdownProps: DropdownProps = { onClose: jest.fn(), isOpen: true };
-const baseMenuProps: DropdownMenuProps = { activeName: 'test' };
-const baseItemProps: DropdownLinkProps = { name: 'test' };
-
 describe('Dropdown', () => {
   test('рендерится без ошибок', () => {
-    renderComponent(baseDropdownProps, baseMenuProps, baseItemProps);
+    renderComponent();
   });
 
   test('dropdown рендерится, если isOpen: true', () => {
-    renderComponent(
-      { ...baseDropdownProps, testId: 'TestDropdown' },
-      { ...baseMenuProps },
-      { ...baseItemProps },
-    );
+    renderComponent();
 
-    expect(screen.getByTestId('TestDropdown')).toBeInTheDocument();
+    expect(screen.getByTestId('Dropdown:root')).toBeInTheDocument();
   });
 
   test('dropdown не рендерится, если isOpen: false', () => {
-    renderComponent(
-      { ...baseDropdownProps, isOpen: false },
-      { ...baseMenuProps },
-      { ...baseItemProps },
-    );
+    renderComponent({ dropdownProps: { isOpen: false } });
 
     const dropdownItem = screen.queryByText('TEST');
 
@@ -64,34 +64,17 @@ describe('Dropdown', () => {
 
 describe('DropdownItem', () => {
   test('проставляется класс is-active для активного элемента', () => {
-    renderComponent(baseDropdownProps, baseMenuProps, { ...baseItemProps, testId: 'test-item' });
-
-    const item = screen.getByTestId('test-item');
-
-    expect(item.classList.contains('is-active')).toBe(true);
-  });
-
-  test('вызывается onChangeActive по клику на Item', () => {
-    const onChangeActive = jest.fn();
-    renderComponent(
-      baseDropdownProps,
-      { ...baseMenuProps, onChangeActive, activeName: 'second' },
-      { ...baseItemProps, testId: 'test-item' },
-    );
+    renderComponent();
 
     const item = findLink();
 
-    fireEvent.click(item);
-    expect(onChangeActive).toBeCalled();
+    expect(item.classList.contains('is-active')).toBe(true);
   });
 
   test('вызывается onClose по клику на Item', () => {
     const onClose = jest.fn();
 
-    renderComponent({ ...baseDropdownProps, onClose }, baseMenuProps, {
-      ...baseItemProps,
-      testId: 'test-item',
-    });
+    renderComponent();
 
     const item = findLink();
 
@@ -100,11 +83,7 @@ describe('DropdownItem', () => {
   });
 
   test('в Item прокидывается любой компонент', () => {
-    renderComponent(baseDropdownProps, baseMenuProps, {
-      ...baseItemProps,
-      testId: 'test-item',
-      as: 'span',
-    });
+    renderComponent({ itemProps: { as: 'span' } });
 
     const item = findLink();
 

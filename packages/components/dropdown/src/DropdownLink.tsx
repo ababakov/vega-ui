@@ -1,35 +1,26 @@
 import React from 'react';
 
 import { cnDropdown } from './helpers/cnDropdown';
-import { useDropdownMenu } from './DropdownContext';
 
 export type DropdownLinkProps = {
   className?: string;
   children?: React.ReactNode;
   as?: React.ElementType;
-  name: string;
-  testId?: string;
+  isActive?: boolean;
 };
 
 export const DropdownLink: React.FC<DropdownLinkProps> = (props) => {
-  const { children, as = 'div', name, className, testId, ...rest } = props;
-
-  const { activeName, onChangeActive } = useDropdownMenu();
-
-  const isActive: boolean = activeName === name;
-
-  const onLinkClick = (): void => {
-    if (onChangeActive && !isActive) {
-      onChangeActive(name);
-    }
-  };
+  const { children, as = 'div', className, isActive, ...rest } = props;
 
   const LinkComponent = as;
 
-  const linkClassName = cnDropdown('Link').mix(className).state({ active: isActive }).toString();
+  const linkClassName = cnDropdown('Link')
+    .mix(className)
+    .state({ active: Boolean(isActive) })
+    .toString();
 
   return (
-    <LinkComponent data-testid={testId} className={linkClassName} onClick={onLinkClick} {...rest}>
+    <LinkComponent className={linkClassName} {...rest}>
       {children}
     </LinkComponent>
   );

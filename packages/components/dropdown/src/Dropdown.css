@@ -18,10 +18,12 @@
   }
 
   &__Menu {
-    display: flex;
-    flex-direction: column;
     margin: 0;
     padding: 0;
+
+    display: flex;
+    flex-direction: column;
+
     list-style: none;
   }
 
@@ -33,13 +35,22 @@
     }
   }
 
-  &__Item {
+  &__ItemButton {
+    padding: 0;
+
+    width: 100%;
+
+    background: transparent;
+    border: 0;
+
     &:focus-within,
     &:focus {
-      outline: none;
       background: var(--color-bg-stripe);
+      outline: 0;
     }
+  }
 
+  &__Item {
     &:hover {
       cursor: pointer;
     }

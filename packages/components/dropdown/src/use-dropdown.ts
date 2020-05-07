@@ -1,35 +1,23 @@
 import React from 'react';
 
-type DropdownParams = {
+type DropdownAPI = {
   isOpen: boolean;
-  activeName: string;
-  handleChangeActiveName: (name: string) => void;
-  toggleDropdownOpen: () => void;
-  handleDropdownClose: () => void;
-  handleDropdownOpen: () => void;
+  toggle: () => void;
+  close: () => void;
+  open: () => void;
 };
 
-type Params = {
-  defaultActiveName: string;
-};
-
-export const useDropdown = (
-  { defaultActiveName }: Params = { defaultActiveName: '' },
-): DropdownParams => {
+export const useDropdown = (): DropdownAPI => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [activeName, setActiveName] = React.useState(defaultActiveName);
 
-  const handleChangeActiveName = React.useCallback((name: string) => setActiveName(name), []);
-  const toggleDropdownOpen = React.useCallback(() => setIsOpen(!isOpen), [isOpen]);
-  const handleDropdownClose = React.useCallback(() => setIsOpen(false), []);
-  const handleDropdownOpen = React.useCallback(() => setIsOpen(true), []);
+  const toggle = React.useCallback(() => setIsOpen(!isOpen), [isOpen]);
+  const close = React.useCallback(() => setIsOpen(false), []);
+  const open = React.useCallback(() => setIsOpen(true), []);
 
   return {
     isOpen,
-    activeName,
-    handleChangeActiveName,
-    toggleDropdownOpen,
-    handleDropdownClose,
-    handleDropdownOpen,
+    toggle,
+    open,
+    close,
   };
 };
