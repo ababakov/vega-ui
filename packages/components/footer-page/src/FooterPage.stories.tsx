@@ -1,9 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { Button } from '@vega-ui/button';
 import { block } from 'bem-cn';
-
-// import { Button } from '@vega-ui/button';
-import { Button } from '../../Button/src';
 
 import { FooterPage } from './FooterPage';
 
