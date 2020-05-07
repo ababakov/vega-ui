@@ -46,8 +46,8 @@ const items = [
 function Stories({ size, view, onlyIcon, withIcon }): React.ReactElement {
   const [value, setValue] = useState<Item[] | null>([
     {
-      name: 'Первый',
-      icon: IconPhoto,
+      name: 'Оченья длинный второй вариант',
+      icon: IconRing,
     },
   ]);
 

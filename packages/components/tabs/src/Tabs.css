@@ -76,12 +76,13 @@
   }
 
   &__InnerContent {
-    margin-bottom: -38px;
-    padding-bottom: 30px;
-
-    overflow-x: auto;
+    /* overflow-x: auto; */
+    width: 1500px;
 
     white-space: nowrap;
+
+    /* margin-bottom: -38px; */
+    /* padding-bottom: 30px; */
 
     /* For WebKit implementations, provide inertia scrolling */
     -webkit-overflow-scrolling: touch;

@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tabs as BaseTabs } from '@gpn-design/uikit/Tabs';
 import { IconArrowLeft, IconArrowRight } from '@vega-ui/icons';
 import { block } from 'bem-cn';
 
-import useSwipeScroll from './use-scroll';
+import { useDraggableTab } from './use-draggeble-tab';
 
 import './Tabs.css';
 
@@ -17,84 +17,83 @@ export const Tabs: BaseTabsComponent = (props) => {
     isHiddenLeftButton: true,
     isHiddenRightButton: false,
   });
-  const scroller = useRef<HTMLDivElement | null>(null);
 
-  const scroll = useSwipeScroll({
-    sliderRef: scroller,
+  const draggableTab = useDraggableTab({
+    findActiveElement(wrapper: HTMLElement) {
+      return wrapper.querySelector('.Tabs-Tab_active');
+    },
   });
 
-  const checkScroll = (): void => {
-    const sc = scroller.current;
+  // const checkScroll = (): void => {
+  //   const sc = scroller.current;
 
-    if (!sc) {
-      return;
-    }
+  //   if (!sc) {
+  //     return;
+  //   }
 
-    console.log(scroll);
+  //   console.log(state);
+  //   console.log(scroll);
 
-    setState({
-      ...state,
-      isHiddenLeftButton: scroll.scrollLeft === 0,
-      isHiddenRightButton:
-        scroll.currentRightPosition === scroll.containerWidth && scroll.containerWidth !== 0,
-    });
-  };
+  //   setState({
+  //     ...state,
+  //     isHiddenLeftButton: scroll.scrollLeft === 0,
+  //     isHiddenRightButton:
+  //       scroll.currentRightPosition === scroll.containerWidth && scroll.containerWidth !== 0,
+  //   });
+  // };
 
-  useEffect(() => {
-    checkScroll();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   checkScroll();
 
-  const handleScrollLeft = (): void => {
-    const sc = scroller.current;
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
-    if (!sc || sc.scrollLeft === 0) {
-      return;
-    }
+  // const handleScrollLeft = (): void => {
+  //   const sc = scroller.current;
 
-    // sc.scrollLeft -= scroll.scrollStep;
-    sc.scrollLeft -= 1033;
+  //   if (!sc || sc.scrollLeft === 0) {
+  //     return;
+  //   }
 
-    checkScroll();
-  };
+  //   // sc.scrollLeft -= scroll.scrollStep;
+  //   sc.scrollLeft -= 1033;
 
-  const handleScrollRight = (): void => {
-    const sc = scroller.current;
+  //   checkScroll();
+  // };
 
-    if (!sc) {
-      return;
-    }
+  // const handleScrollRight = (): void => {
+  //   const sc = scroller.current;
 
-    sc.scrollLeft += 1033;
+  //   if (!sc) {
+  //     return;
+  //   }
 
-    console.log(scroll.scrollStep);
-    console.log(sc.scrollLeft);
+  //   sc.scrollLeft += 1033;
 
-    checkScroll();
-  };
+  //   checkScroll();
+  // };
 
   return (
     <div className={cnTabs({ size })}>
       {!state.isHiddenLeftButton && (
         <div className={cnTabs('ScrollLeft')}>
-          <button type="button" className={cnTabs('ScrollButton')} onClick={handleScrollLeft}>
+          <button type="button" className={cnTabs('ScrollButton')}>
             <IconArrowLeft />
           </button>
         </div>
       )}
-      <div className={cnTabs('Inner')}>
-        <div className={cnTabs('InnerContent')} ref={scroller}>
+      <div className={cnTabs('Inner')} {...draggableTab.getRootProps()}>
+        <div className={cnTabs('InnerContent')} {...draggableTab.getWrapperProps()}>
           <BaseTabs {...props} className={cnTabs('Native', { align: 'center' })} />
         </div>
       </div>
       {!state.isHiddenRightButton && (
         <div className={cnTabs('ScrollRight')}>
-          <button type="button" className={cnTabs('ScrollButton')} onMouseDown={handleScrollRight}>
+          <button type="button" className={cnTabs('ScrollButton')}>
             <IconArrowRight />
           </button>
         </div>
       )}
-      <span>{scroll.scrollLeft}</span>
     </div>
   );
 };
