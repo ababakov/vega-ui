@@ -11,8 +11,6 @@ import { DropdownTrigger } from './DropdownTrigger';
 
 import './Dropdown.css';
 
-type ElementsProps = JSX.IntrinsicElements;
-
 export type DropdownProps = {
   trigger?: React.ReactNode;
   onClose: (e?: PossibleCloseEvent) => void;
@@ -21,7 +19,7 @@ export type DropdownProps = {
   className?: string;
   portalId?: string;
   portal?: boolean;
-} & ElementsProps['div'];
+};
 
 type Dropdown<T> = React.FC<T> & {
   Menu: typeof DropdownMenu;
