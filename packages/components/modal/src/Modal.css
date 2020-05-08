@@ -12,7 +12,7 @@
     max-width: 900px;
 
     background-color: var(--color-bg-default);
-    border-radius: 8px;
+    border-radius: calc(var(--control-radius) * 2);
 
     transform: translate(-50%, -50%);
   }

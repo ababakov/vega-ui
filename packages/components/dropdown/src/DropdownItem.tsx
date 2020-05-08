@@ -35,7 +35,7 @@ export const DropdownItem: React.FC<DropdownItemProps> = (props) => {
     .toString();
 
   return (
-    <ItemComponent {...rest} onClick={onItemClick} className={itemClassName}>
+    <ItemComponent {...rest} className={itemClassName}>
       <button type="button" className={cnDropdown('ItemButton')} onClick={onItemClick}>
         {children}
       </button>
