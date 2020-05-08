@@ -26,7 +26,7 @@ export type ModalProps = {
   className?: string;
 };
 
-interface TypeModal<T> extends React.FC<T>, DivProps {
+interface Modal<T> extends React.FC<T>, DivProps {
   Header: typeof ModalHeader;
   Footer: typeof ModalFooter;
   Body: typeof ModalBody;
