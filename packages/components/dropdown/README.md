@@ -66,7 +66,6 @@ type DropdownProps = {
 type DropdownItemProps = {
   className?: string;
   children?: React.ReactNode;
-  as?: React.ElementType; // Элемент, который будет рендериться на месте Item. По умолчанию <li></li>
   onClick?: (e: MouseEvent) => void;
   isActive?: boolean; // является ли эта ссылка активной
 };

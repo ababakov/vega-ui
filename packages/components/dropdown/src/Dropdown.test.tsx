@@ -101,12 +101,4 @@ describe('DropdownItem', () => {
 
     expect(item.classList.contains('is-active')).toBe(true);
   });
-
-  test('в Item прокидывается любой компонент', () => {
-    renderComponent({ itemProps: { as: 'span' } });
-
-    const item = findItem();
-
-    expect(item.tagName).toBe('SPAN');
-  });
 });

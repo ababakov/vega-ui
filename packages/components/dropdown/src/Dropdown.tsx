@@ -50,11 +50,24 @@ export const Dropdown: Dropdown<DropdownProps> = (props) => {
     return null;
   }
 
+  const cssTransitionClasses = {
+    enter: cnDropdown.state({ enter: true }).toString(),
+    enterActive: cnDropdown.state({ enterActive: true }).toString(),
+    exit: cnDropdown.state({ exit: true }).toString(),
+    exitActive: cnDropdown.state({ exitActive: true }).toString(),
+  };
+
   const content = (
     <DropdownContext.Provider value={{ onClose }}>
       <div ref={dropdownRef}>
         {trigger}
-        <CSSTransition timeout={300} classNames="dropdown" in={isOpen} mountOnEnter unmountOnExit>
+        <CSSTransition
+          timeout={300}
+          classNames={cssTransitionClasses}
+          in={isOpen}
+          mountOnEnter
+          unmountOnExit
+        >
           <div {...rest} className={cnDropdown('Root').mix(className)}>
             {children}
           </div>
