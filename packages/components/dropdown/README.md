@@ -29,12 +29,8 @@ export const MyComponent = () => {
   return (
     <Dropdown isOpen={isOpen} trigger={triggerNode} onClose={handleDropdownClose}>
       <Dropdown.Menu>
-        <Dropdown.Item>
-          <Dropdown.Link>First</Dropdown.Link>
-        </Dropdown.Item>
-        <Dropdown.Item>
-          <Dropdown.Link>Second</Dropdown.Link>
-        </Dropdown.Item>
+        <Dropdown.Item>First</Dropdown.Item>
+        <Dropdown.Item>Second</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );
@@ -72,18 +68,12 @@ type DropdownItemProps = {
   children?: React.ReactNode;
   as?: React.ElementType; // Элемент, который будет рендериться на месте Item. По умолчанию <li></li>
   onClick?: (e: MouseEvent) => void;
+  isActive?: boolean; // является ли эта ссылка активной
 };
 
 type DropdownMenuProps = {
   className?: string;
   children?: React.ReactNode;
-};
-
-type DropdownLinkProps = {
-  className?: string;
-  children?: React.ReactNode;
-  as?: React.ElementType;
-  isActive?: boolean; // является ли эта ссылка активной
 };
 
 type DropdownTriggerProps = {

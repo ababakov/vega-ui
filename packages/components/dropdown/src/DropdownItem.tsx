@@ -10,10 +10,11 @@ export type DropdownItemProps = {
   children?: React.ReactNode;
   onClick?: (e: MouseEvent) => void;
   as?: React.ElementType;
+  isActive?: boolean;
 };
 
 export const DropdownItem: React.FC<DropdownItemProps> = (props) => {
-  const { className, children, onClick, as = 'li', ...rest } = props;
+  const { className, children, onClick, as = 'li', isActive, ...rest } = props;
 
   const { onClose: onMenuClose } = useDropdownContext();
 
@@ -28,7 +29,11 @@ export const DropdownItem: React.FC<DropdownItemProps> = (props) => {
 
   const ItemComponent = as;
 
-  const itemClassName: string = cnDropdown('Item').mix(className).toString();
+  const itemClassName: string = cnDropdown('Item')
+    .mix(className)
+    .state({ active: Boolean(isActive) })
+    .toString();
+
   return (
     <ItemComponent {...rest} onClick={onItemClick} className={itemClassName}>
       <button type="button" className={cnDropdown('ItemButton')} onClick={onItemClick}>

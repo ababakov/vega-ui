@@ -6,7 +6,6 @@ import { useOnClickOutside, usePortalDomNode } from '@vega-ui/hooks';
 import { cnDropdown } from './helpers/cnDropdown';
 import { DropdownContext } from './DropdownContext';
 import { DropdownItem } from './DropdownItem';
-import { DropdownLink } from './DropdownLink';
 import { DropdownMenu } from './DropdownMenu';
 import { DropdownTrigger } from './DropdownTrigger';
 
@@ -27,7 +26,6 @@ export type DropdownProps = {
 type Dropdown<T> = React.FC<T> & {
   Menu: typeof DropdownMenu;
   Item: typeof DropdownItem;
-  Link: typeof DropdownLink;
   Trigger: typeof DropdownTrigger;
 };
 
@@ -74,5 +72,4 @@ export const Dropdown: Dropdown<DropdownProps> = (props) => {
 
 Dropdown.Menu = DropdownMenu;
 Dropdown.Item = DropdownItem;
-Dropdown.Link = DropdownLink;
 Dropdown.Trigger = DropdownTrigger;

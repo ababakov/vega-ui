@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render, RenderResult, screen } from '@testing-library/react';
 
 import { Dropdown, DropdownProps } from './Dropdown';
-import { DropdownLinkProps } from './DropdownLink';
+import { DropdownItemProps } from './DropdownItem';
 import { DropdownMenuProps } from './DropdownMenu';
 
 const baseDropdownProps: DropdownProps = { onClose: jest.fn(), isOpen: true };
@@ -10,7 +10,7 @@ const baseDropdownProps: DropdownProps = { onClose: jest.fn(), isOpen: true };
 type ComponentsProps = {
   dropdownProps?: Partial<DropdownProps>;
   menuProps?: Partial<DropdownMenuProps>;
-  itemProps?: Partial<DropdownLinkProps>;
+  itemProps?: Partial<DropdownItemProps>;
 };
 
 const renderComponent = (componentsProps: ComponentsProps = {}): RenderResult => {
@@ -25,20 +25,16 @@ const renderComponent = (componentsProps: ComponentsProps = {}): RenderResult =>
   return render(
     <Dropdown {...props.dropdownProps} trigger={trigger} data-testid="Dropdown:Root">
       <Dropdown.Menu {...props.menuProps}>
-        <Dropdown.Item data-testid="Dropdown:Item">
-          <Dropdown.Link isActive {...props.itemProps} data-testid="Dropdown:Link">
-            TEST
-          </Dropdown.Link>
+        <Dropdown.Item isActive {...props.itemProps} data-testid="Dropdown:Item">
+          TEST
         </Dropdown.Item>
-        <Dropdown.Item>
-          <Dropdown.Link>SECOND</Dropdown.Link>
-        </Dropdown.Item>
+        <Dropdown.Item>SECOND</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>,
   );
 };
 
-const findLink = (testId = 'Dropdown:Link'): Element => {
+const findItem = (testId = 'Dropdown:Item'): Element => {
   return screen.getByTestId(testId);
 };
 
@@ -97,21 +93,19 @@ describe('DropdownItem', () => {
 
     expect(onClose).toBeCalled();
   });
-});
 
-describe('DropdownLink', () => {
   test('проставляется класс is-active для активного элемента', () => {
     renderComponent();
 
-    const item = findLink();
+    const item = findItem();
 
     expect(item.classList.contains('is-active')).toBe(true);
   });
 
-  test('в Link прокидывается любой компонент', () => {
+  test('в Item прокидывается любой компонент', () => {
     renderComponent({ itemProps: { as: 'span' } });
 
-    const item = findLink();
+    const item = findItem();
 
     expect(item.tagName).toBe('SPAN');
   });

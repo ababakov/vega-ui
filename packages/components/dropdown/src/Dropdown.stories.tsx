@@ -11,15 +11,11 @@ const DropdownMenu = (): React.ReactElement => {
 
   return (
     <Dropdown.Menu>
-      <Dropdown.Item onClick={(): void => setActive('first')}>
-        <Dropdown.Link isActive={active === 'first'}>
-          <Text>First</Text>
-        </Dropdown.Link>
+      <Dropdown.Item isActive={active === 'first'} onClick={(): void => setActive('first')}>
+        <Text>First</Text>
       </Dropdown.Item>
-      <Dropdown.Item onClick={(): void => setActive('second')}>
-        <Dropdown.Link isActive={active === 'second'}>
-          <Text>Second</Text>
-        </Dropdown.Link>
+      <Dropdown.Item isActive={active === 'second'} onClick={(): void => setActive('second')}>
+        <Text>Second</Text>
       </Dropdown.Item>
     </Dropdown.Menu>
   );

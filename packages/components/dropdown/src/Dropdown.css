@@ -27,16 +27,8 @@
     list-style: none;
   }
 
-  &__Link {
-    padding: 6px var(--space-s);
-
-    &.is-active {
-      background: var(--color-bg-stripe);
-    }
-  }
-
   &__ItemButton {
-    padding: 0;
+    padding: 6px var(--space-s);
 
     width: 100%;
 
@@ -51,6 +43,10 @@
   }
 
   &__Item {
+    &.is-active {
+      background: var(--color-bg-stripe);
+    }
+
     &:hover {
       cursor: pointer;
     }
