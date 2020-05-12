@@ -60,7 +60,7 @@ type DropdownProps = {
   isOpen: boolean; // Индикация того, что дропдаун открыт
   className?: string;
   portal?: boolean; //Должен ли компонент рендерится в портале
-  portalId?: string; // id для контейнера-портал
+  portalId?: string; // id для контейнера-портала
 };
 
 type DropdownItemProps = {
