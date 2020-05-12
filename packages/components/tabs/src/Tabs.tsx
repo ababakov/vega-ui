@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { MouseEvent } from 'react';
 import { Tabs as BaseTabs } from '@gpn-design/uikit/Tabs';
 import { IconArrowLeft, IconArrowRight } from '@vega-ui/icons';
 import { block } from 'bem-cn';
 
-import { useDraggableTab } from './use-draggeble-tab';
+import { useDraggableTab } from './use-draggable-container';
 
 import './Tabs.css';
 
@@ -13,10 +13,6 @@ const cnTabs = block('VegaTabs');
 
 export const Tabs: BaseTabsComponent = (props) => {
   const { size } = props;
-  const [state, setState] = useState({
-    isHiddenLeftButton: true,
-    isHiddenRightButton: false,
-  });
 
   const draggableTab = useDraggableTab({
     findActiveElement(wrapper: HTMLElement) {
@@ -24,60 +20,20 @@ export const Tabs: BaseTabsComponent = (props) => {
     },
   });
 
-  // const checkScroll = (): void => {
-  //   const sc = scroller.current;
-
-  //   if (!sc) {
-  //     return;
-  //   }
-
-  //   console.log(state);
-  //   console.log(scroll);
-
-  //   setState({
-  //     ...state,
-  //     isHiddenLeftButton: scroll.scrollLeft === 0,
-  //     isHiddenRightButton:
-  //       scroll.currentRightPosition === scroll.containerWidth && scroll.containerWidth !== 0,
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   checkScroll();
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
-  // const handleScrollLeft = (): void => {
-  //   const sc = scroller.current;
-
-  //   if (!sc || sc.scrollLeft === 0) {
-  //     return;
-  //   }
-
-  //   // sc.scrollLeft -= scroll.scrollStep;
-  //   sc.scrollLeft -= 1033;
-
-  //   checkScroll();
-  // };
-
-  // const handleScrollRight = (): void => {
-  //   const sc = scroller.current;
-
-  //   if (!sc) {
-  //     return;
-  //   }
-
-  //   sc.scrollLeft += 1033;
-
-  //   checkScroll();
-  // };
+  const handleScrollLeft = (e: MouseEvent | TouchEvent): void => {
+    e.stopPropagation();
+    draggableTab.scroll('left');
+  };
+  const handleScrollRight = (e: MouseEvent | TouchEvent): void => {
+    e.stopPropagation();
+    draggableTab.scroll('right');
+  };
 
   return (
     <div className={cnTabs({ size })}>
-      {!state.isHiddenLeftButton && (
+      {!draggableTab.isLeftLimit && (
         <div className={cnTabs('ScrollLeft')}>
-          <button type="button" className={cnTabs('ScrollButton')}>
+          <button type="button" className={cnTabs('ScrollButton')} onClick={handleScrollLeft}>
             <IconArrowLeft />
           </button>
         </div>
@@ -87,9 +43,9 @@ export const Tabs: BaseTabsComponent = (props) => {
           <BaseTabs {...props} className={cnTabs('Native', { align: 'center' })} />
         </div>
       </div>
-      {!state.isHiddenRightButton && (
+      {!draggableTab.isRightLimit && (
         <div className={cnTabs('ScrollRight')}>
-          <button type="button" className={cnTabs('ScrollButton')}>
+          <button type="button" className={cnTabs('ScrollButton')} onClick={handleScrollRight}>
             <IconArrowRight />
           </button>
         </div>
