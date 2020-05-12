@@ -1,6 +1,7 @@
 import path from 'path';
 
 import resolve from '@rollup/plugin-node-resolve';
+import autoExternal from 'rollup-plugin-auto-external';
 import postcss from 'rollup-plugin-postcss';
 import typescript from 'rollup-plugin-typescript2';
 
@@ -15,7 +16,7 @@ const formats = [
 ];
 
 function isExternalModule(id) {
-  return !id.startsWith('.') && !id.includes(path.join(PACKAGE_ROOT, 'src'));
+  return !id.startsWith('./') && !id.includes(path.join(PACKAGE_ROOT, 'src'));
 }
 
 export default formats.map((format) => {
@@ -30,9 +31,10 @@ export default formats.map((format) => {
         react: 'React',
       },
     },
-    external: isExternalModule,
+    // external: isExternalModule,
     plugins: [
-      resolve(),
+      // resolve(),
+      autoExternal(),
       postcss(),
       typescript({
         tsconfig: 'tsconfig.json',
