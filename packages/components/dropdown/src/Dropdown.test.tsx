@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, RenderResult, screen } from '@testing-library/react';
+import { render, RenderResult, screen } from '@testing-library/react';
 
 import { Dropdown, DropdownProps } from './Dropdown';
 import { DropdownItemProps } from './DropdownItem';
@@ -82,18 +82,6 @@ describe('Dropdown', () => {
 });
 
 describe('DropdownItem', () => {
-  test('вызывается onClose по клику на Item', () => {
-    const onClose = jest.fn();
-
-    renderComponent({ dropdownProps: { onClose } });
-
-    const item = screen.getByTestId('Dropdown:Item');
-
-    fireEvent.click(item.firstChild as ChildNode);
-
-    expect(onClose).toBeCalled();
-  });
-
   test('проставляется класс is-active для активного элемента', () => {
     renderComponent();
 

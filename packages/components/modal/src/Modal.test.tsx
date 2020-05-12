@@ -15,23 +15,6 @@ describe('Modal', () => {
     renderComponent({ onClose: jest.fn() });
   });
 
-  describe('Закрытие по кнопке', () => {
-    test('закрывается по esc', () => {
-      const onClose = jest.fn();
-      renderComponent({ onClose });
-
-      const escEvent = new KeyboardEvent('keydown', {
-        bubbles: true,
-        key: 'Escape',
-        code: 'Escape',
-      });
-
-      document.dispatchEvent(escEvent);
-
-      expect(onClose).toBeCalled();
-    });
-  });
-
   describe('Кнопка закрытия', () => {
     test('рендерится кнопка, если передать hasCloseButton', () => {
       renderComponent({ onClose: jest.fn(), hasCloseButton: true });

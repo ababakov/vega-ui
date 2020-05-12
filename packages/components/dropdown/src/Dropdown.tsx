@@ -1,10 +1,9 @@
 import React, { useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
-import { useOnClickOutside, usePortalDomNode } from '@vega-ui/hooks';
+import { PossibleCloseEvent, usePortalDomNode, useRootClose } from '@vega-ui/hooks';
 
 import { cnDropdown } from './helpers/cnDropdown';
-import { DropdownContext } from './DropdownContext';
 import { DropdownItem } from './DropdownItem';
 import { DropdownMenu } from './DropdownMenu';
 import { DropdownTrigger } from './DropdownTrigger';
@@ -15,7 +14,7 @@ type ElementsProps = JSX.IntrinsicElements;
 
 export type DropdownProps = {
   trigger?: React.ReactNode;
-  onClose: (e?: MouseEvent | TouchEvent) => void;
+  onClose: (e?: PossibleCloseEvent) => void;
   children?: React.ReactNode;
   isOpen: boolean;
   className?: string;
@@ -33,16 +32,13 @@ export const Dropdown: Dropdown<DropdownProps> = (props) => {
   const { trigger, onClose, children, className, isOpen, portalId, portal, ...rest } = props;
   const dropdownRef = useRef(null);
 
-  useOnClickOutside({
-    ref: dropdownRef,
-    handler: (e) => {
-      const target = e.target as HTMLElement;
-      const parentTargetId = target?.parentElement?.id;
-      if (isOpen && parentTargetId !== portalId) {
-        onClose();
-      }
-    },
-  });
+  const onDropdownClose = (e: PossibleCloseEvent): void => {
+    if (isOpen) {
+      onClose(e);
+    }
+  };
+
+  useRootClose(dropdownRef, onDropdownClose);
 
   const portalNode = usePortalDomNode(`#${portalId}`);
 
@@ -58,22 +54,20 @@ export const Dropdown: Dropdown<DropdownProps> = (props) => {
   };
 
   const content = (
-    <DropdownContext.Provider value={{ onClose }}>
-      <div ref={dropdownRef}>
-        {trigger}
-        <CSSTransition
-          timeout={300}
-          classNames={cssTransitionClasses}
-          in={isOpen}
-          mountOnEnter
-          unmountOnExit
-        >
-          <div {...rest} className={cnDropdown('Root').mix(className)}>
-            {children}
-          </div>
-        </CSSTransition>
-      </div>
-    </DropdownContext.Provider>
+    <div ref={dropdownRef}>
+      {trigger}
+      <CSSTransition
+        timeout={300}
+        classNames={cssTransitionClasses}
+        in={isOpen}
+        mountOnEnter
+        unmountOnExit
+      >
+        <div {...rest} className={cnDropdown('Root').mix(className)}>
+          {children}
+        </div>
+      </CSSTransition>
+    </div>
   );
 
   if (portalNode && portal) {

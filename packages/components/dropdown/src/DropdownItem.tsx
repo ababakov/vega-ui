@@ -1,7 +1,6 @@
 import React, { MouseEvent } from 'react';
 
 import { cnDropdown } from './helpers/cnDropdown';
-import { useDropdownContext } from './DropdownContext';
 
 import './Dropdown.css';
 
@@ -15,14 +14,9 @@ export type DropdownItemProps = {
 export const DropdownItem: React.FC<DropdownItemProps> = (props) => {
   const { className, children, onClick, isActive, ...rest } = props;
 
-  const { onClose: onMenuClose } = useDropdownContext();
-
   const onItemClick = (e: MouseEvent): void => {
     if (onClick) {
       onClick(e);
-    }
-    if (onMenuClose) {
-      onMenuClose();
     }
   };
 

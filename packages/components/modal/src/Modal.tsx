@@ -1,7 +1,7 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from '@vega-ui/button';
-import { useKey, useOnClickOutside, usePortalDomNode } from '@vega-ui/hooks';
+import { PossibleCloseEvent as CloseEvent, usePortalDomNode, useRootClose } from '@vega-ui/hooks';
 import { IconClose } from '@vega-ui/icons';
 
 import { cnModal } from './helpers/cn-modal';
@@ -11,17 +11,17 @@ import { ModalHeader } from './ModalHeader';
 
 import './Modal.css';
 
-type CloseEvent = KeyboardEvent | React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent;
-
 type DivProps = JSX.IntrinsicElements['div'];
 
+type PossibleCloseEvent = CloseEvent | React.SyntheticEvent;
+
 export type ModalProps = {
-  onClose: (e: CloseEvent) => void;
+  onClose: (e: PossibleCloseEvent) => void;
   isOpen?: boolean;
   hasCloseButton?: boolean;
   children?: React.ReactNode;
   hasOverlay?: boolean;
-  onOverlayClick?: (e: React.SyntheticEvent) => void;
+  onOverlayClick?: React.EventHandler<React.MouseEvent>;
   rootSelector?: string;
   className?: string;
 };
@@ -32,14 +32,12 @@ interface Modal<T> extends React.FC<T>, DivProps {
   Body: typeof ModalBody;
 }
 
-const ESCAPE_CODE = 'Escape';
-
 export const Modal: Modal<ModalProps> = (props) => {
   const {
     hasCloseButton,
     onClose,
     children,
-    onOverlayClick: handleOverlayClick,
+    onOverlayClick,
     isOpen,
     hasOverlay,
     className,
@@ -48,25 +46,20 @@ export const Modal: Modal<ModalProps> = (props) => {
   const rootSelector: string = props.rootSelector || 'body';
   const portal = usePortalDomNode(rootSelector);
   const ref = useRef<HTMLDivElement | null>(null);
-  const onOverlayClick = handleOverlayClick ?? onClose;
 
-  const onClickOutside = useCallback(
-    (e: CloseEvent): void => {
+  const onCloseModal = (e: PossibleCloseEvent): void => {
+    if (isOpen) {
       onClose(e);
-    },
-    [onClose],
-  );
+    }
+  };
 
-  useOnClickOutside({ ref, handler: onClickOutside });
+  const handleOverlayClick = (e: React.MouseEvent): void => {
+    if (onOverlayClick) {
+      onOverlayClick(e);
+    }
+  };
 
-  const onCloseByEsc = useCallback(
-    (e: CloseEvent) => {
-      onClose(e);
-    },
-    [onClose],
-  );
-
-  useKey(ESCAPE_CODE, onCloseByEsc, { keyevent: 'keydown' });
+  useRootClose(ref, onCloseModal);
 
   if (!portal || !isOpen) {
     return null;
@@ -87,7 +80,7 @@ export const Modal: Modal<ModalProps> = (props) => {
             className={cnModal('CloseButton').toString()}
             type="button"
             view="ghost"
-            onClick={onClose}
+            onClick={onCloseModal}
             onlyIcon
             iconLeft={IconClose}
             iconSize="s"
@@ -99,7 +92,7 @@ export const Modal: Modal<ModalProps> = (props) => {
         <button
           aria-label="Оверлей модального окна"
           type="button"
-          onClick={onOverlayClick}
+          onClick={handleOverlayClick}
           className={cnModal('Overlay')}
         />
       )}
