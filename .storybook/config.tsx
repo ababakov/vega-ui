@@ -3,6 +3,7 @@ import { addDecorator, configure, addParameters } from '@storybook/react';
 import { withKnobs } from '@storybook/addon-knobs';
 import { withPerformance } from 'storybook-addon-performance';
 import { withThemes } from 'storybook-addon-themes';
+import { AppContainer, AppContainerManager } from '@vega-ui/app-container/src';
 
 import { cnTheme } from '@gpn-design/uikit/Theme';
 
@@ -25,17 +26,16 @@ const themes = cnTheme({
   control: 'gpnDefault',
 });
 
+const appContainerManager = new AppContainerManager('rootSelector', 'modalRoot');
+
 const defaultClassName = `Theme ${themes} Theme_color_gpnDefault`;
 
-const modalRoot = document.createElement('div');
-modalRoot.setAttribute('id', 'modalRoot');
-modalRoot.className = defaultClassName;
-document.body.appendChild(modalRoot);
+appContainerManager.createPortalRoot({ className: defaultClassName })
 
 const ThemeDecorator = ({ children, theme = { class: 'Theme_color_gpnDefault' } }) => {
   const className = `Theme ${themes} ${theme.class}`;
   document.body.className = className;
-  document.querySelector('#modalRoot').className = className;
+  appContainerManager.updatePortalRootClassName(className);
   return <div className={className}>{children}</div>;
 }
 
@@ -65,9 +65,9 @@ addDecorator((story) => {
   };
 
   return (
-    <div id="rootLayout" style={appStyles}>
+    <AppContainer appContainerManager={appContainerManager} style={appStyles}>
       {story()}
-    </div>
+    </AppContainer>
   );
 });
 

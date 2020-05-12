@@ -117,6 +117,7 @@
   "dependencies": {
     "@gpn-design/uikit": "^1.0.2",
     "react": "^16.13.1",
-    "bem-cn": "^3.0.1"
+    "bem-cn": "^3.0.1",
+    "@vega-ui/app-container": "0.0.1"
   }
 }
