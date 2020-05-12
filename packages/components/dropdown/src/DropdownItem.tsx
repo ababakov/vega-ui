@@ -9,10 +9,11 @@ export type DropdownItemProps = {
   children?: React.ReactNode;
   onClick?: (e: MouseEvent) => void;
   isActive?: boolean;
+  align?: 'start' | 'end' | 'center';
 };
 
 export const DropdownItem: React.FC<DropdownItemProps> = (props) => {
-  const { className, children, onClick, isActive, ...rest } = props;
+  const { className, children, onClick, isActive, align, ...rest } = props;
 
   const onItemClick = (e: MouseEvent): void => {
     if (onClick) {
@@ -27,9 +28,13 @@ export const DropdownItem: React.FC<DropdownItemProps> = (props) => {
 
   return (
     <li {...rest} className={itemClassName}>
-      <button type="button" className={cnDropdown('ItemButton')} onClick={onItemClick}>
+      <button type="button" className={cnDropdown('ItemButton', { align })} onClick={onItemClick}>
         {children}
       </button>
     </li>
   );
+};
+
+DropdownItem.defaultProps = {
+  align: 'center',
 };
