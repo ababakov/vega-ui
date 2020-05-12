@@ -59,8 +59,8 @@ type DropdownProps = {
   children?: React.ReactNode;
   isOpen: boolean; // Индикация того, что дропдаун открыт
   className?: string;
-  portal?: boolean; //Должен ли компонент рендерится в портале
-  portalId?: string; // id для контейнера-портал
+  portal?: boolean; // Должен ли компонент рендериться в портале
+  portalId?: string; // id для контейнера-портала
 };
 
 type DropdownItemProps = {
