@@ -1,9 +1,8 @@
-import React, { MouseEvent } from 'react';
+import React from 'react';
 import { Tabs as BaseTabs } from '@gpn-design/uikit/Tabs';
+import { useDraggableContainer } from '@vega-ui/hooks';
 import { IconArrowLeft, IconArrowRight } from '@vega-ui/icons';
 import { block } from 'bem-cn';
-
-import { useDraggableTab } from './use-draggable-container';
 
 import './Tabs.css';
 
@@ -14,18 +13,16 @@ const cnTabs = block('VegaTabs');
 export const Tabs: BaseTabsComponent = (props) => {
   const { size } = props;
 
-  const draggableTab = useDraggableTab({
+  const draggableTab = useDraggableContainer({
     findActiveElement(wrapper: HTMLElement) {
       return wrapper.querySelector('.Tabs-Tab_active');
     },
   });
 
-  const handleScrollLeft = (e: MouseEvent | TouchEvent): void => {
-    e.stopPropagation();
+  const handleScrollLeft = (): void => {
     draggableTab.scroll('left');
   };
-  const handleScrollRight = (e: MouseEvent | TouchEvent): void => {
-    e.stopPropagation();
+  const handleScrollRight = (): void => {
     draggableTab.scroll('right');
   };
 

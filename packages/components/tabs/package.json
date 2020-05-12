@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
-  "types": "dist/button/src/index.d.ts",
+  "types": "dist/tabs/src/index.d.ts",
   "author": "csssr",
   "files": [
     "dist"
@@ -14,7 +14,8 @@
     "@gpn-design/uikit": "^1.0.1"
   },
   "dependencies": {
-    "@vega-ui/icons": "^0.0.1",
-    "@gpn-design/uikit": "^1.0.1"
+    "@gpn-design/uikit": "^1.0.1",
+    "@vega-ui/hooks": "0.0.1",
+    "@vega-ui/icons": "^0.0.1"
   }
 }

@@ -18,7 +18,7 @@ type IsLimits = {
   isRightLimit: boolean;
 };
 
-type State = {
+export type State = {
   dir: 'left' | 'right' | null;
   current: number;
   offset: number;
@@ -29,7 +29,7 @@ type State = {
 
 type ElementWidth = { visible: number; actual: number };
 
-type ActionReducer = { width: ElementWidth } & (
+export type ActionReducer = { width: ElementWidth } & (
   | { type: 'force'; offset: number }
   | { type: 'scroll'; offset: number }
   | { type: 'start' | 'move' | 'end'; x: number }
@@ -168,7 +168,7 @@ export function movementReducer(state: State, action: ActionReducer): State {
 
 let isMouseDragStart: boolean;
 
-export function useDraggableTab({ findActiveElement }: Props): ReturnValue {
+export function useDraggableContainer({ findActiveElement }: Props): ReturnValue {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [activeElement, setActiveElement] = useState<HTMLElement | null>(null);
@@ -316,6 +316,8 @@ export function useDraggableTab({ findActiveElement }: Props): ReturnValue {
     const offsetRight =
       rightPosition + width.visible > width.actual ? width.actual % width.visible : width.visible;
 
+    console.log(offsetLeft);
+
     const offset = dir === 'left' ? offsetLeft : offsetRight * -1;
 
     updateMovement({
@@ -342,172 +344,3 @@ export function useDraggableTab({ findActiveElement }: Props): ReturnValue {
     scroll,
   };
 }
-
-// import { useEffect, useState } from 'react';
-
-// type ScrollData = {
-//   hasSwiped: boolean;
-//   scrollLeft: number;
-//   currentRightPosition: number;
-//   containerWidth: number;
-//   scrollStep: number;
-// };
-
-// function useSwipeScroll({
-//   sliderRef,
-//   momentumVelocity = 0.9,
-// }: {
-//   sliderRef: React.RefObject<HTMLDivElement>;
-//   momentumVelocity?: number;
-// }): ScrollData {
-//   const [state, setState] = useState({
-//     hasSwiped: false,
-//   });
-
-//   if (!sliderRef.current) {
-//     return undefined;
-//   }
-//   const pos = {
-//     scrollLeft: !sliderRef.current ? sliderRef.current.scrollLeft : 0,
-//     scrollStep: 0,
-//     currentRightPosition: 0,
-//     containerWidth: sliderRef.current?.scrollWidth || 0,
-//   };
-
-//   // setState({
-//   //   ...state,
-//   //   scrollLeft: slider.scrollLeft,
-//   //   scrollStep: slider.clientWidth,
-//   //   currentRightPosition: slider.scrollLeft + slider.clientWidth,
-//   //   containerWidth: slider.scrollWidth,
-//   // });
-
-//   const init = useCallback(() => {
-//     const slider = sliderRef.current;
-
-//     if (!slider) {
-//       return undefined;
-//     }
-
-//     console.log(state);
-//     console.log({ scrollStep: slider.clientWidth });
-
-//     let isDown = false;
-//     let startX: number;
-//     let { scrollLeft } = state;
-
-//     // Momentum
-//     let velX = 0;
-//     let momentumID: number;
-
-//     function cancelMomentumTracking(): void {
-//       cancelAnimationFrame(momentumID);
-//     }
-
-//     function momentumLoop(): void {
-//       if (!slider) {
-//         return;
-//       }
-//       slider.scrollLeft += velX;
-//       velX *= momentumVelocity;
-
-//       setState({
-//         ...state,
-//         scrollLeft: slider.scrollLeft,
-//         scrollStep: slider.clientWidth,
-//         currentRightPosition: slider.scrollLeft + slider.clientWidth,
-//         containerWidth: slider.scrollWidth,
-//       });
-
-//       if (Math.abs(velX) > 0.5) {
-//         momentumID = requestAnimationFrame(momentumLoop);
-//       }
-//     }
-
-//     function beginMomentumTracking(): void {
-//       cancelMomentumTracking();
-//       momentumID = requestAnimationFrame(momentumLoop);
-//     }
-
-//     function mousedown(e: MouseEvent): void {
-//       if (!slider) {
-//         return;
-//       }
-//       isDown = true;
-//       startX = e.pageX - slider.offsetLeft;
-//       scrollLeft = slider.scrollLeft;
-//       cancelMomentumTracking();
-//     }
-
-//     function mouseleave(): void {
-//       isDown = false;
-//     }
-
-//     function mouseup(): void {
-//       isDown = false;
-//       beginMomentumTracking();
-//       setTimeout(() => setState({ ...state, hasSwiped: false }), 0);
-//     }
-
-//     function mousemove(e: MouseEvent): void {
-//       if (!isDown || !slider) return;
-
-//       e.preventDefault();
-
-//       const x = e.pageX - slider.offsetLeft;
-//       const walk = (x - startX) * 3; // scroll-fast
-//       const prevScrollLeft = slider.scrollLeft;
-
-//       slider.scrollLeft = scrollLeft - walk;
-//       velX = slider.scrollLeft - prevScrollLeft;
-
-//       if (slider.scrollLeft - prevScrollLeft && !state.hasSwiped) {
-//         setState({ ...state, hasSwiped: true });
-//       }
-//     }
-
-//     function wheel(): void {
-//       cancelMomentumTracking();
-//     }
-
-//     slider.addEventListener('mousedown', mousedown);
-//     slider.addEventListener('mouseleave', mouseleave);
-//     slider.addEventListener('mouseup', mouseup);
-//     slider.addEventListener('mousemove', mousemove);
-//     slider.addEventListener('wheel', wheel);
-
-//     return (): void => {
-//       slider.removeEventListener('mousedown', mousedown);
-//       slider.removeEventListener('mouseleave', mouseleave);
-//       slider.removeEventListener('mouseup', mouseup);
-//       slider.removeEventListener('mousemove', mousemove);
-//       slider.removeEventListener('wheel', wheel);
-//     };
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, []);
-
-//   useEffect(() => {
-//     init();
-//   }, []);
-
-//   // function scroll(): void {
-//   //   const slider = !sliderRef.current;
-//   //   if (!slider) return;
-
-//   //   // const x = e.pageX - slider.offsetLeft;
-//   //   const walk = (state.scrollStep - state.scrollLeft) * 3; // scroll-fast
-//   //   const prevScrollLeft = state.scrollLeft;
-
-//   //   slider.scrollLeft = state.scrollLeft - walk;
-
-//   //   velX = slider.scrollLeft - prevScrollLeft;
-
-//   //   if (slider.scrollLeft - prevScrollLeft && !hasSwiped) {
-//   //     setHasSwiped(true);
-//   //   }
-//   // }
-
-//   return state;
-// }
-
-// export default useSwipeScroll;
